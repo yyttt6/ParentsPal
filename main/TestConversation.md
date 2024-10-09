@@ -82,24 +82,24 @@ Method: GET
 URL: /api/conversations/latest-messages?username=David
 Method: GET
 --结果
-{
-        "data": [
-            {
+\{
+        "data": \[
+            \{
             "sender_name": "Bob",
             "receiver_name": "Alice",
             "content": "Hi Alice!",
             "created_at": "2024-10-08T23:14:26"
-            },
-            {
+            \},
+            \{
                 "sender_name": "Alice",
                 "receiver_name": "Charlie",
                 "content": "😊",
                 "created_at": "2024-10-08T23:15:34"
-            }
-        ],
+            \}
+        \],
         "success": true,
         "errorMsg": null
-}
+\}
 
 --获取两个用户之间的对话的最后100条消息
 URL: /api/conversations/messages-between-users?username1=Alice&username2=Charlie
@@ -107,21 +107,21 @@ Method: GET
 URL: /api/conversations/messages-between-users?username1=Charlie&username2=David
 Method: GET
 --结果
-{
-"data": [
-    {
+\{
+"data": \[
+    \{
         "sender_name": "Alice",
         "receiver_name": "Charlie",
         "content": "😊",
         "created_at": "2024-10-08T23:15:34"
-    },
-    {
+    \},
+    \{
         "sender_name": "Alice",
         "receiver_name": "Charlie",
         "content": "Hello Charlie!",
         "created_at": "2024-10-08T23:15:22"
-    }
-    ],
+    \}
+    \],
     "success": true,
     "errorMsg": null
-}
+\}
