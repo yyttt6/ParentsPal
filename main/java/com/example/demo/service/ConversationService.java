@@ -20,9 +20,14 @@ public class ConversationService {
     private MessageRepository messageRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private MessageConverter messageConverter;
+    @Autowired
+    private final EncryptionService encryptionService;
+
+    public ConversationService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     public Response<Integer> getUserIdByUsername(String username) {
 
@@ -89,7 +94,7 @@ public class ConversationService {
         message.setConversationId(conversation_id);
         message.setSenderId(sender_id);
         message.setReceiverId(receiver_id);
-        message.setContent(content);
+        message.setContent(encryptionService.encrypt(content));
         message.setCreatedAt(LocalDateTime.now());
         Message savedMessage = messageRepository.save(message);
         return Response.newSuccess(savedMessage);

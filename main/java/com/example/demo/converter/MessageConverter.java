@@ -5,6 +5,7 @@ import com.example.demo.dao.Message;
 import com.example.demo.dao.User;
 import com.example.demo.dao.UserRepository;
 import com.example.demo.dto.MessageDTO;
+import com.example.demo.service.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,13 @@ import java.util.Optional;
 public class MessageConverter {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private final EncryptionService encryptionService;
+
+    public MessageConverter(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
+
     public MessageDTO convertMessage(Message message){
         MessageDTO messageDTO = new MessageDTO();
 
@@ -25,7 +33,7 @@ public class MessageConverter {
         String receiverName = nameOptional.orElse("Unknown");
         messageDTO.setReceiver_name(receiverName);
 
-        messageDTO.setContent(message.getContent());
+        messageDTO.setContent(encryptionService.decrypt(message.getContent()));
         messageDTO.setCreated_at(message.getCreatedAt());
         return messageDTO;
     }

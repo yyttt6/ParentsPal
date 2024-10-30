@@ -1,4 +1,6 @@
-  
+--在环境变量中设置密码
+$env:JASYPT_ENCRYPTOR_PASSWORD = "123456"
+
 --创建一个无需密码登录的user01，并赋予他除了DELETE之外的所有权限  
 mysql -u root -p  
 CREATE USER 'user01'@'localhost';  
