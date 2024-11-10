@@ -1,18 +1,18 @@
-package com.example.demo.service.implement
+package com.example.main.service.blog.implement
 
-import com.example.demo.converter.ArticleTagConverter.Companion.convertArticleTag
-import com.example.demo.dao.ArticleTag
-import com.example.demo.dao.repository.ArticleTagListRepository
-import com.example.demo.dao.repository.ArticleTagRepository
-import com.example.demo.dto.ArticleTagDTO
-import com.example.demo.service.ArticleTagService
+import com.example.main.converter.blog.ArticleTagConverter.Companion.convertArticleTag
+import com.example.main.dao.blog.ArticleTag
+import com.example.main.dao.blog.repository.ArticleTagListRepository
+import com.example.main.dao.blog.repository.ArticleTagRepository
+import com.example.main.dto.blog.ArticleTagDTO
+import com.example.main.service.blog.ArticleTagService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class ArticleTagServiceImpl: ArticleTagService {
+open class ArticleTagServiceImpl: ArticleTagService {
     @Autowired
     private lateinit var articleTagListRepository: ArticleTagListRepository
 

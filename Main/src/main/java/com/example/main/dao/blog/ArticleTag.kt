@@ -1,4 +1,4 @@
-package com.example.demo.dao
+package com.example.main.dao.blog
 
 import jakarta.persistence.*
 
@@ -9,6 +9,10 @@ class ArticleTag (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     var id: Long? = null,
+
     @Column(name = "name")
-    var name: String
-)
+    var name: String = "" // default value for no-arg constructor
+) {
+    // No-arg constructor required by JPA
+    constructor() : this(null, "")
+}

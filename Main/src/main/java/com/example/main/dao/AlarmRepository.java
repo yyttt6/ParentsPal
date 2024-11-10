@@ -1,6 +1,6 @@
-package com.example.LoginRegister.repo;
+package com.example.main.repo;
 
-import com.example.LoginRegister.entity.Alarm;
+import com.example.main.entity.Alarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
-package com.example.LoginRegister.service;
-import com.example.LoginRegister.entity.Baby;
-import com.example.LoginRegister.repo.BabyRepository;
+package com.example.main.service;
+import com.example.main.entity.Baby;
+import com.example.main.repo.BabyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

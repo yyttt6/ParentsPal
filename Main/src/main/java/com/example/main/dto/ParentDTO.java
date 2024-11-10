@@ -1,4 +1,4 @@
-package com.example.LoginRegister.dto;
+package com.example.main.dto;
 
 public class ParentDTO {
     private long id;

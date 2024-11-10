@@ -1,8 +1,8 @@
-package com.example.LoginRegister.service;
-import com.example.LoginRegister.entity.Baby;
-import com.example.LoginRegister.entity.GrowthTracking;
-import com.example.LoginRegister.repo.BabyRepository;
-import com.example.LoginRegister.repo.GrowthTrackingRepository;
+package com.example.main.service;
+import com.example.main.entity.Baby;
+import com.example.main.entity.GrowthTracking;
+import com.example.main.repo.BabyRepository;
+import com.example.main.repo.GrowthTrackingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

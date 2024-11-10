@@ -1,9 +1,9 @@
-package com.example.demo.controller
+package com.example.main.controller.blog
 
-import com.example.demo.Response
-import com.example.demo.dao.ArticleTag
-import com.example.demo.dto.ArticleTagDTO
-import com.example.demo.service.ArticleTagService
+import com.example.main.Response
+import com.example.main.dao.blog.ArticleTag
+import com.example.main.dto.blog.ArticleTagDTO
+import com.example.main.service.blog.ArticleTagService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 

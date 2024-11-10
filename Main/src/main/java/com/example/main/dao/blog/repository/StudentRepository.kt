@@ -1,6 +1,6 @@
-package com.example.demo.dao.repository
+package com.example.main.dao.blog.repository
 
-import com.example.demo.dao.Student
+import com.example.main.dao.blog.Student
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

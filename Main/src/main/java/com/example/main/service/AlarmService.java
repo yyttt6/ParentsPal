@@ -1,13 +1,12 @@
-package com.example.LoginRegister.service;
+package com.example.main.service;
 
-import com.example.LoginRegister.dto.AlarmDTO;
-import com.example.LoginRegister.entity.Alarm;
-import com.example.LoginRegister.repo.AlarmRepository;
+import com.example.main.dto.AlarmDTO;
+import com.example.main.entity.Alarm;
+import com.example.main.repo.AlarmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.example.LoginRegister.entity.Alarm;
 
 @Service
 public class AlarmService {

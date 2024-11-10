@@ -1,4 +1,4 @@
-package com.example.LoginRegister.entity;
+package com.example.main.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

@@ -1,10 +1,10 @@
-package com.example.main.controller.conv;
+package com.example.demo.controller.conv;
 
-import com.example.main.Response;
-import com.example.main.dao.conv.Conversation;
-import com.example.main.dao.conv.Message;
-import com.example.main.dto.conv.MessageDTO;
-import com.example.main.service.conv.ConversationService;
+import com.example.demo.Response;
+import com.example.demo.dao.conv.Conversation;
+import com.example.demo.dao.conv.Message;
+import com.example.demo.dto.conv.MessageDTO;
+import com.example.demo.service.conv.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

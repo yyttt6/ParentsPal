@@ -1,9 +1,9 @@
-package com.example.main.converter.conv;
+package com.example.demo.converter.conv;
 
-import com.example.main.dao.conv.Message;
-import com.example.main.dao.conv.UserRepository;
-import com.example.main.dto.conv.MessageDTO;
-import com.example.main.service.conv.EncryptionService;
+import com.example.demo.dao.conv.Message;
+import com.example.demo.dao.conv.UserRepository;
+import com.example.demo.dto.conv.MessageDTO;
+import com.example.demo.service.conv.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

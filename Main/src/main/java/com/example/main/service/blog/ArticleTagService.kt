@@ -1,7 +1,7 @@
-package com.example.demo.service
+package com.example.main.service.blog
 
-import com.example.demo.dao.ArticleTag
-import com.example.demo.dto.ArticleTagDTO
+import com.example.main.dao.blog.ArticleTag
+import com.example.main.dto.blog.ArticleTagDTO
 
 interface ArticleTagService {
     fun getArticleTagById(id: Long): ArticleTag

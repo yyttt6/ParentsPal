@@ -1,13 +1,12 @@
 package com.example.main.controller;
 
-import com.example.LoginRegister.dto.GrowthTrackingDTO;
-import com.example.LoginRegister.entity.GrowthTracking;
-import com.example.LoginRegister.service.GrowthTrackingService;
+import com.example.main.dto.GrowthTrackingDTO;
+import com.example.main.entity.GrowthTracking;
+import com.example.main.service.GrowthTrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController

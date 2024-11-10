@@ -1,8 +1,8 @@
-package com.example.LoginRegister.converter.blog
+package com.example.main.converter.blog
 
-import com.example.demo.dao.ArticleTag
-import com.example.demo.dao.ArticleTagList
-import com.example.demo.dto.ArticleTagDTO
+import com.example.main.dao.blog.ArticleTag
+import com.example.main.dao.blog.ArticleTagList
+import com.example.main.dto.blog.ArticleTagDTO
 
 class ArticleTagConverter {
     companion object{

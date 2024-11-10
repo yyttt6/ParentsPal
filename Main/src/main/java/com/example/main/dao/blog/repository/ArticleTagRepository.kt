@@ -1,6 +1,6 @@
-package com.example.demo.dao.repository
+package com.example.main.dao.blog.repository
 
-import com.example.demo.dao.ArticleTag
+import com.example.main.dao.blog.ArticleTag
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleTagRepository: JpaRepository<ArticleTag, Long> {

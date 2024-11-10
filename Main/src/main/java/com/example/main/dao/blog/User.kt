@@ -1,4 +1,4 @@
-package com.example.demo.dao
+package com.example.main.dao.blog
 
 import jakarta.persistence.*
 
@@ -9,10 +9,16 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     var userId: Long? = null,
-    @Column(name = "username")
+
+    @Column(name = "username", nullable = false, unique = true)
     var username: String,
-    @Column(name = "password")
+
+    @Column(name = "password", nullable = false)
     var password: String,
-    @Column(name = "phonenumber")
-    var phoneNumber: String,
-)
+
+    @Column(name = "phonenumber", nullable = false)
+    var phoneNumber: String
+) {
+    // No-arg constructor for JPA
+    constructor() : this(null, "", "", "")
+}

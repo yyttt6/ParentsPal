@@ -1,12 +1,12 @@
-package com.example.main.service.conv;
+package com.example.demo.service.conv;
 
-import com.example.main.dao.conv.*;
-import com.example.main.dto.conv.MessageDTO;
-import com.example.main.converter.conv.MessageConverter;
-import com.example.main.firebase.conv.FcmNotificationService;
+import com.example.demo.dao.conv.*;
+import com.example.demo.dto.conv.MessageDTO;
+import com.example.demo.converter.conv.MessageConverter;
+import com.example.demo.firebase.conv.FcmNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.main.Response;
+import com.example.demo.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

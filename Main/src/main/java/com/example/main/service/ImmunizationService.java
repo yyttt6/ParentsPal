@@ -1,8 +1,8 @@
-package com.example.LoginRegister.service;
+package com.example.main.service;
 
-import com.example.LoginRegister.dto.ImmunizationDTO;
-import com.example.LoginRegister.entity.Immunization;
-import com.example.LoginRegister.repo.ImmunizationRepository;
+import com.example.main.dto.ImmunizationDTO;
+import com.example.main.entity.Immunization;
+import com.example.main.repo.ImmunizationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;

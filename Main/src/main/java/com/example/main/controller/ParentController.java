@@ -1,11 +1,10 @@
 package com.example.main.controller;
 
-import com.example.LoginRegister.dto.ParentDTO;
-import com.example.LoginRegister.dto.LoginDTO;
-import com.example.LoginRegister.entity.Baby;
-import com.example.LoginRegister.entity.Parent;
-import com.example.LoginRegister.response.LoginMessage;
-import com.example.LoginRegister.service.ParentService;
+import com.example.main.dto.ParentDTO;
+import com.example.main.dto.LoginDTO;
+import com.example.main.entity.Baby;
+import com.example.main.response.LoginMessage;
+import com.example.main.service.ParentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

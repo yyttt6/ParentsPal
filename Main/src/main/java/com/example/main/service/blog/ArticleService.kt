@@ -1,7 +1,7 @@
-package com.example.demo.service
+package com.example.main.service.blog
 
-import com.example.demo.Response
-import com.example.demo.dao.Article
+import com.example.main.Response
+import com.example.main.dao.blog.Article
 
 interface ArticleService {
     fun getArticleById(id: Long): Response<Article>

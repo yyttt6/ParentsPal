@@ -1,10 +1,10 @@
-package com.example.LoginRegister.service;
+package com.example.main.service;
 
-import com.example.LoginRegister.dto.ParentDTO;
-import com.example.LoginRegister.dto.LoginDTO;
-import com.example.LoginRegister.entity.Baby;
-import com.example.LoginRegister.entity.Parent;
-import com.example.LoginRegister.response.LoginMessage;
+import com.example.main.dto.ParentDTO;
+import com.example.main.dto.LoginDTO;
+import com.example.main.entity.Baby;
+import com.example.main.entity.Parent;
+import com.example.main.response.LoginMessage;
 
 import java.util.Optional;
 

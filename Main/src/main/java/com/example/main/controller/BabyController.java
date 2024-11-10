@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
-import com.example.LoginRegister.entity.Baby;
-import com.example.LoginRegister.service.BabyService;
+import com.example.main.entity.Baby;
+import com.example.main.service.BabyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

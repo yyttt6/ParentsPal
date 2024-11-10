@@ -1,4 +1,4 @@
-package com.example.LoginRegister.dto.blog
+package com.example.main.dto.blog
 
 class ArticleTagDTO(
     val articleTagId: Long,

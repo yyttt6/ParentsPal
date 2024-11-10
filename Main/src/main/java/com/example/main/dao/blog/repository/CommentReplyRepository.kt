@@ -1,4 +1,4 @@
-package com.example.demo.dao.repository
+package com.example.main.dao.blog.repository
 
 interface CommentReplyRepository {
 }

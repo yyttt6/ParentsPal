@@ -1,6 +1,6 @@
-package com.example.demo.service
+package com.example.main.service.blog
 
-import com.example.demo.dao.Comment
+import com.example.main.dao.blog.Comment
 
 interface CommentService {
     fun getCommentById(id: Long): Comment

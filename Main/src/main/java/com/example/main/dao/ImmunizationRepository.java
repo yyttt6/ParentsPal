@@ -1,6 +1,6 @@
-package com.example.LoginRegister.repo;
+package com.example.main.repo;
 
-import com.example.LoginRegister.entity.Immunization;
+import com.example.main.entity.Immunization;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

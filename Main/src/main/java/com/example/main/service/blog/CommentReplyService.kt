@@ -1,4 +1,4 @@
-package com.example.demo.service
+package com.example.main.service.blog
 
 interface CommentReplyService {
 }

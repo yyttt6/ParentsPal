@@ -1,10 +1,10 @@
-package com.example.demo.service.implement
+package com.example.main.service.implement
 
-import com.example.demo.dao.repository.UserRepository
-import com.example.demo.dao.User
-import com.example.demo.dao.repository.CommentRepository
-import com.example.demo.dao.Comment
-import com.example.demo.service.CommentService
+import com.example.main.dao.blog.repository.UserRepository
+import com.example.main.dao.blog.User
+import com.example.main.dao.blog.repository.CommentRepository
+import com.example.main.dao.blog.Comment
+import com.example.main.service.blog.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class CommentServiceImpl: CommentService {
+open class CommentServiceImpl: CommentService {
     @Autowired
     private lateinit var commentRepository: CommentRepository
     @Autowired

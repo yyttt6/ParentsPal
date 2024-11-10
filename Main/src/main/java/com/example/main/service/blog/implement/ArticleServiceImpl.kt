@@ -1,11 +1,11 @@
-package com.example.demo.service.implement
+package com.example.main.service.blog.implement
 
-import com.example.demo.Response
-import com.example.demo.dao.Article
-import com.example.demo.dao.User
-import com.example.demo.dao.repository.ArticleRepository
-import com.example.demo.dao.repository.UserRepository
-import com.example.demo.service.ArticleService
+import com.example.main.Response
+import com.example.main.dao.blog.Article
+import com.example.main.dao.blog.User
+import com.example.main.dao.blog.repository.ArticleRepository
+import com.example.main.dao.blog.repository.UserRepository
+import com.example.main.service.blog.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class ArticleServiceImpl : ArticleService {
+open class ArticleServiceImpl : ArticleService {
     @Autowired
     private lateinit var articleRepository: ArticleRepository
     @Autowired

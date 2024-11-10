@@ -1,4 +1,4 @@
-package com.example.LoginRegister.entity;
+package com.example.main.dao;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
