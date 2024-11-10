@@ -4,7 +4,7 @@ import com.example.main.Response
 import com.example.main.dao.blog.Article
 import com.example.main.dao.blog.User
 import com.example.main.dao.blog.repository.ArticleRepository
-import com.example.main.dao.blog.repository.UserRepository
+import com.example.main.dao.login.ParentRepository
 import com.example.main.service.blog.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -17,7 +17,7 @@ open class ArticleServiceImpl : ArticleService {
     @Autowired
     private lateinit var articleRepository: ArticleRepository
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ParentRepository
 
     override fun getArticleById(id: Long): Response<Article> {
         val article = articleRepository.findById(id)
