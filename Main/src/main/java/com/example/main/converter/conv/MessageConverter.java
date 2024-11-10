@@ -1,7 +1,8 @@
 package com.example.main.converter.conv;
 
 import com.example.main.dao.conv.Message;
-import com.example.main.dao.conv.UserRepository;
+import com.example.main.dao.login.Parent;
+import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.conv.MessageDTO;
 import com.example.main.service.conv.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Component
 public class MessageConverter {
     @Autowired
-    private UserRepository userRepository;
+    private ParentRepository userRepository;
     @Autowired
     private final EncryptionService encryptionService;
 
@@ -23,11 +24,11 @@ public class MessageConverter {
     public MessageDTO convertMessage(Message message){
         MessageDTO messageDTO = new MessageDTO();
 
-        Optional<String> nameOptional = userRepository.findNameByUserId(message.getSenderId());
-        String senderName = nameOptional.orElse("Unknown");
+        Optional<Parent> optionalParent1 = userRepository.findById(Long.valueOf(message.getSenderId()));
+        String senderName = optionalParent1.map(Parent::getName).orElse("Unknown");
         messageDTO.setSender_name(senderName);
-        nameOptional = userRepository.findNameByUserId(message.getReceiverId());
-        String receiverName = nameOptional.orElse("Unknown");
+        Optional<Parent> optionalParent2 = userRepository.findById(Long.valueOf(message.getSenderId()));
+        String receiverName = optionalParent1.map(Parent::getName).orElse("Unknown");
         messageDTO.setReceiver_name(receiverName);
 
         messageDTO.setContent(encryptionService.decrypt(message.getContent()));

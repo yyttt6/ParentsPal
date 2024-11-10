@@ -2,8 +2,8 @@ package com.example.main.service.blog.implement
 
 import com.example.main.Response
 import com.example.main.dao.blog.Article
-import com.example.main.dao.blog.User
 import com.example.main.dao.blog.repository.ArticleRepository
+import com.example.main.dao.login.Parent
 import com.example.main.dao.login.ParentRepository
 import com.example.main.service.blog.ArticleService
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,14 +34,14 @@ open class ArticleServiceImpl : ArticleService {
 
     override fun createArticle(article: Article): Long? {
         // 寻找用户id
-        val userOptional: Optional<User> = userRepository.findById(article.idUser)
+        val userOptional: Optional<Parent> = userRepository.findById(article.idUser)
 
         // 查看用户是否存在
         if (userOptional.isPresent) {
             val user = userOptional.get()
 
             // 存在则将username赋给article
-            article.username = user.username
+            article.username = user.name
             val savedArticle: Article = articleRepository.save(article)
             return savedArticle.articleId
 

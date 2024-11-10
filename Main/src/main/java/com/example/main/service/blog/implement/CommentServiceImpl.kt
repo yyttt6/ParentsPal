@@ -1,8 +1,8 @@
 package com.example.main.service.implement
 
-import com.example.main.dao.blog.User
 import com.example.main.dao.blog.repository.CommentRepository
 import com.example.main.dao.blog.Comment
+import com.example.main.dao.login.Parent
 import com.example.main.dao.login.ParentRepository
 import com.example.main.service.blog.CommentService
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,14 +24,14 @@ open class CommentServiceImpl: CommentService {
 
     override fun createComment(comment: Comment): Long? {
         // 寻找评论id
-        val userOptional: Optional<User> = userRepository.findById(comment.userId)
+        val userOptional: Optional<Parent> = userRepository.findById(comment.userId)
 
         // 查看用户是否存在
         if (userOptional.isPresent) {
             val user = userOptional.get()
 
             // 存在则将username赋给comment
-            comment.username = user.username
+            comment.username = user.name
             val savedComment: Comment = commentRepository.save(comment)
             return savedComment.commentId
 

@@ -25,7 +25,7 @@ public class ConversationController {
     @PostMapping("/message")
     public Response<Message> saveMessage(@RequestParam String senderUsername, @RequestParam String receiverUsername,
                                          @RequestParam String content, @RequestParam(required = false) Integer conversation_id) {
-        conversationService.sendLastMessage(content, senderUsername, receiverUsername);
+//        conversationService.sendLastMessage(content, senderUsername, receiverUsername);
         return conversationService.saveMessage(senderUsername, receiverUsername, content, conversation_id);
     }
 
