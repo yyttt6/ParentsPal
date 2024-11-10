@@ -1,39 +1,22 @@
-package com.example.main.entity;
+package com.example.main.dto.login;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-public class Immunization {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private Long babyId;
-
-    @Column(nullable = false)
+public class ImmunizationDTO {
     private String vaccineName;
-
     private LocalDate dateGiven;
     private LocalDate nextDue;
 
-    public Long getId() {
-        return id;
+    // Constructors
+    public ImmunizationDTO() {}
+
+    public ImmunizationDTO(String vaccineName, LocalDate dateGiven, LocalDate nextDue) {
+        this.vaccineName = vaccineName;
+        this.dateGiven = dateGiven;
+        this.nextDue = nextDue;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getBabyId() {
-        return babyId;
-    }
-
-    public void setBabyId(Long babyId) {
-        this.babyId = babyId;
-    }
-
+    // Getters and Setters
     public String getVaccineName() {
         return vaccineName;
     }

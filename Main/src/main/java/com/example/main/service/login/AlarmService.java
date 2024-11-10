@@ -1,8 +1,8 @@
-package com.example.main.service;
+package com.example.main.service.login;
 
-import com.example.main.dto.AlarmDTO;
-import com.example.main.entity.Alarm;
-import com.example.main.repo.AlarmRepository;
+import com.example.main.dto.login.AlarmDTO;
+import com.example.main.dao.login.Alarm;
+import com.example.main.dao.login.AlarmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

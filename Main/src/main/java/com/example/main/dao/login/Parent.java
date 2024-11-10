@@ -1,4 +1,4 @@
-package com.example.main.dao;
+package com.example.main.dao.login;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

@@ -1,8 +1,8 @@
-package com.example.main.controller;
+package com.example.main.controller.login;
 
-import com.example.main.dto.GrowthTrackingDTO;
-import com.example.main.entity.GrowthTracking;
-import com.example.main.service.GrowthTrackingService;
+import com.example.main.dto.login.GrowthTrackingDTO;
+import com.example.main.dao.login.GrowthTracking;
+import com.example.main.service.login.GrowthTrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

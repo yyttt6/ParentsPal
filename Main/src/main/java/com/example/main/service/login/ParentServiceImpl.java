@@ -1,14 +1,14 @@
-package com.example.main.service;
+package com.example.main.service.login;
 
-import com.example.main.dto.ParentDTO;
-import com.example.main.dto.LoginDTO;
-import com.example.main.entity.Parent;
-import com.example.main.repo.ParentRepository;
+import com.example.main.dto.login.ParentDTO;
+import com.example.main.dto.login.LoginDTO;
+import com.example.main.dao.login.Parent;
+import com.example.main.dao.login.ParentRepository;
 import com.example.main.response.LoginMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.main.entity.Baby;
-import com.example.main.repo.BabyRepository;
+import com.example.main.dao.login.Baby;
+import com.example.main.dao.login.BabyRepository;
 
 import java.util.Optional;
 @Service

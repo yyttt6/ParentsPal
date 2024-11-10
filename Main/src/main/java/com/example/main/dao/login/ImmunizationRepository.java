@@ -1,6 +1,5 @@
-package com.example.main.repo;
+package com.example.main.dao.login;
 
-import com.example.main.entity.Immunization;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

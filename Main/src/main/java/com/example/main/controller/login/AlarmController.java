@@ -1,8 +1,8 @@
-package com.example.main.controller;
+package com.example.main.controller.login;
 
-import com.example.main.dto.AlarmDTO;
-import com.example.main.entity.Alarm;
-import com.example.main.service.AlarmService;
+import com.example.main.dto.login.AlarmDTO;
+import com.example.main.dao.login.Alarm;
+import com.example.main.service.login.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

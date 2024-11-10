@@ -1,4 +1,4 @@
-package com.example.main.entity;
+package com.example.main.dao.login;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

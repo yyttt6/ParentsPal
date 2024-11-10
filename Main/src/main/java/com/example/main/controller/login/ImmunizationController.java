@@ -1,7 +1,7 @@
-package com.example.main.controller;
-import com.example.main.dto.ImmunizationDTO;
-import com.example.main.entity.Immunization;
-import com.example.main.service.ImmunizationService;
+package com.example.main.controller.login;
+import com.example.main.dto.login.ImmunizationDTO;
+import com.example.main.dao.login.Immunization;
+import com.example.main.service.login.ImmunizationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

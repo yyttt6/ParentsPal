@@ -1,6 +1,5 @@
-package com.example.main.repo;
+package com.example.main.dao.login;
 
-import com.example.main.entity.Baby;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BabyRepository extends JpaRepository<Baby, Long> {}

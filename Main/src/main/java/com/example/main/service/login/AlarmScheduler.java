@@ -1,6 +1,6 @@
-package com.example.main.service;
-import com.example.main.dto.AlarmDTO;
-import com.example.main.entity.Alarm;
+package com.example.main.service.login;
+import com.example.main.dto.login.AlarmDTO;
+import com.example.main.dao.login.Alarm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
