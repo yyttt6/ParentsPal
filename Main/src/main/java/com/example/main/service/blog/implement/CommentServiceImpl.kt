@@ -1,9 +1,9 @@
 package com.example.main.service.implement
 
-import com.example.main.dao.blog.repository.UserRepository
 import com.example.main.dao.blog.User
 import com.example.main.dao.blog.repository.CommentRepository
 import com.example.main.dao.blog.Comment
+import com.example.main.dao.login.ParentRepository
 import com.example.main.service.blog.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ open class CommentServiceImpl: CommentService {
     @Autowired
     private lateinit var commentRepository: CommentRepository
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ParentRepository
 
     override fun getCommentById(id: Long): Comment {
         return commentRepository.findById(id).orElseThrow{ RuntimeException("Comment not found") }
