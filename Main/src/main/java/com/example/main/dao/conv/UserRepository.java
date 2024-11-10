@@ -1,5 +1,4 @@
-package com.example.demo.dao.conv;
-import com.example.demo.dao.conv.User;
+package com.example.main.dao.conv;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

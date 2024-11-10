@@ -1,4 +1,4 @@
-package com.example.demo.controller.conv;
+package com.example.main.controller.conv;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

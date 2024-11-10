@@ -1,5 +1,4 @@
-package com.example.demo.dao.conv;
-import com.example.demo.dao.conv.Message;
+package com.example.main.dao.conv;
 import jakarta.annotation.Nonnull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

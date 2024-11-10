@@ -1,4 +1,4 @@
-package com.example.demo.firebase.conv;
+package com.example.main.firebase.conv;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
