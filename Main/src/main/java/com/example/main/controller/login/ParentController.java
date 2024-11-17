@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1/appuser")
@@ -25,7 +27,16 @@ public class ParentController {
     public ResponseEntity<?> loginAppUser(@RequestBody LoginDTO loginDTO)
     {
         LoginMessage loginMessage =  parentService.loginAppUser(loginDTO);
-        return ResponseEntity.ok(loginMessage);
+        if (loginMessage.getStatus()) {
+            Long parentId = parentService.getParentIdByPhoneNumber(loginDTO.getPhoneNumber());
+            loginMessage.setParentId(parentId);
+
+            List<Baby> babies = parentService.getBabiesByParentId(parentId);
+            loginMessage.setBabies(babies);
+            return ResponseEntity.ok(loginMessage);
+        } else {
+            return ResponseEntity.status(401).body(loginMessage);
+        }
     }
 
     @PostMapping("/{parentId}/babies")

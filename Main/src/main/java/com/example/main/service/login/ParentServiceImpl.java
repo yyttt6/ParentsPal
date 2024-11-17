@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.BabyRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ParentServiceImpl implements ParentService {
@@ -40,8 +42,10 @@ public class ParentServiceImpl implements ParentService {
             Boolean isPwdRight = password.equals(storedPassword);
             if (isPwdRight) {
                 Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), storedPassword);
+
                 if (employee.isPresent()) {
-                    return new LoginMessage("Login Success", true);
+                    Parent loggedInParent = employee.get();
+                    return new LoginMessage("Login Success. Parent ID: " + loggedInParent.getId(), true);
                 } else {
                     return new LoginMessage("Login Failed", false);
                 }
@@ -73,4 +77,21 @@ public class ParentServiceImpl implements ParentService {
             return null;
         }
     }
+
+    @Override
+    public Long getParentIdByPhoneNumber(String phoneNumber) {
+        Parent parent = parentRepository.findByPhoneNumber(phoneNumber);
+        return parent != null ? parent.getId() : null;
+    }
+
+    @Override
+    public List<Baby> getBabiesByParentId(Long parentId) {
+        Optional<Parent> optionalParent = parentRepository.findById(parentId);
+        if (optionalParent.isPresent()) {
+            Parent parent = optionalParent.get();
+            return parent.getBabies();
+        }
+        return new ArrayList<>();
+    }
+
 }

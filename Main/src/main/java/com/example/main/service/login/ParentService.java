@@ -6,6 +6,7 @@ import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.Parent;
 import com.example.main.response.LoginMessage;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ParentService {
@@ -16,4 +17,8 @@ public interface ParentService {
 
     Optional<Parent> getParentById(Long parentId);
     Baby addBabyToParent(Long parentId, Baby baby);
+    Long getParentIdByPhoneNumber(String phoneNumber);
+
+    List<Baby> getBabiesByParentId(Long parentId);
+
 }
