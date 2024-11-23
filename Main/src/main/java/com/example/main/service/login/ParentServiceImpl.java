@@ -22,11 +22,13 @@ public class ParentServiceImpl implements ParentService {
     private BabyRepository babyRepository;
 
     @Override
-    public String addNewAppUser (ParentDTO parentDTO) {
+    public LoginMessage addNewAppUser (ParentDTO parentDTO) {
 
         if (parentRepository.existsByPhoneNumber(parentDTO.getPhoneNumber())) {
-            return "Phone number already exists";
+            return new LoginMessage("Phone number already exists", false);
         }
+
+
 
         Parent parent = new Parent(
                 parentDTO.getId(),
@@ -34,8 +36,12 @@ public class ParentServiceImpl implements ParentService {
                 parentDTO.getPhoneNumber(),
                 parentDTO.getPassword()
         );
-        parentRepository.save(parent);
-        return "Registration successful";
+        Parent savedParent = parentRepository.save(parent);
+
+        LoginMessage loginMessage = new LoginMessage("Registration successful", true);
+        loginMessage.setParentId(savedParent.getId());
+        loginMessage.setParentName(savedParent.getName());
+        return loginMessage;
     }
     @Override
     public LoginMessage loginAppUser(LoginDTO loginDTO) {
@@ -97,6 +103,12 @@ public class ParentServiceImpl implements ParentService {
             return parent.getBabies();
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public String getParentNameById(Long parentId) {
+        Optional<Parent> parentOpt = parentRepository.findById(parentId);
+        return parentOpt.map(Parent::getName).orElse(null);
     }
 
 }

@@ -8,6 +8,7 @@ public class LoginMessage {
     String message;
     Boolean status;
     private Long parentId;
+    private String parentName;
 
     private List<Baby> babies;
     public String getMessage() {
@@ -26,12 +27,6 @@ public class LoginMessage {
         this.message = message;
         this.status = status;
     }
-    public LoginMessage(String message, Boolean status, Long parentId, List<Baby> babies) {
-        this.message = message;
-        this.status = status;
-        this.parentId = parentId;
-        this.babies = babies;
-    }
 
     public Long getParentId() {
         return parentId;
@@ -47,5 +42,13 @@ public class LoginMessage {
 
     public void setBabies(List<Baby> babies) {
         this.babies = babies;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }
