@@ -13,4 +13,6 @@ public interface ParentRepository extends JpaRepository<Parent,Long> {
     Parent findByPhoneNumber(String phoneNumber);
     Optional<Parent> findOneByPhoneNumberAndPassword(String phoneNumber, String password);
     Optional<Parent> getByName(String name);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }

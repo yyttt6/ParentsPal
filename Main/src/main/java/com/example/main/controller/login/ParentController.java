@@ -18,10 +18,13 @@ public class ParentController {
     @Autowired
     private ParentService parentService;
     @PostMapping(path = "/register")
-    public String saveAppUser(@RequestBody ParentDTO parentDTO)
+    public ResponseEntity<?> saveAppUser(@RequestBody ParentDTO parentDTO)
     {
-        String name =  parentService.addNewAppUser(parentDTO);
-        return name;
+        String responseMessage = parentService.addNewAppUser(parentDTO);
+        if (responseMessage.equals("Phone number already exists")) {
+            return ResponseEntity.status(409).body("Phone number already exists");
+        }
+        return ResponseEntity.ok("Registration successful");
     }
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginAppUser(@RequestBody LoginDTO loginDTO)

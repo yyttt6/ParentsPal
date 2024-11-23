@@ -23,6 +23,11 @@ public class ParentServiceImpl implements ParentService {
 
     @Override
     public String addNewAppUser (ParentDTO parentDTO) {
+
+        if (parentRepository.existsByPhoneNumber(parentDTO.getPhoneNumber())) {
+            return "Phone number already exists";
+        }
+
         Parent parent = new Parent(
                 parentDTO.getId(),
                 parentDTO.getName(),
@@ -30,7 +35,7 @@ public class ParentServiceImpl implements ParentService {
                 parentDTO.getPassword()
         );
         parentRepository.save(parent);
-        return parent.getName();
+        return "Registration successful";
     }
     @Override
     public LoginMessage loginAppUser(LoginDTO loginDTO) {
