@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ParentService {
 
-    String addNewAppUser(ParentDTO parentDTO);
+    LoginMessage addNewAppUser(ParentDTO parentDTO);
 
     LoginMessage loginAppUser(LoginDTO loginDTO);
 
@@ -20,5 +20,7 @@ public interface ParentService {
     Long getParentIdByPhoneNumber(String phoneNumber);
 
     List<Baby> getBabiesByParentId(Long parentId);
+
+    String getParentNameById(Long parentId);
 
 }

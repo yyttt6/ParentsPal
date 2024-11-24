@@ -20,11 +20,11 @@ public class ParentController {
     @PostMapping(path = "/register")
     public ResponseEntity<?> saveAppUser(@RequestBody ParentDTO parentDTO)
     {
-        String responseMessage = parentService.addNewAppUser(parentDTO);
-        if (responseMessage.equals("Phone number already exists")) {
-            return ResponseEntity.status(409).body("Phone number already exists");
+        LoginMessage responseMessage = parentService.addNewAppUser(parentDTO);
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage );
         }
-        return ResponseEntity.ok("Registration successful");
+        return ResponseEntity.status(409).body(responseMessage );
     }
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginAppUser(@RequestBody LoginDTO loginDTO)
@@ -33,6 +33,9 @@ public class ParentController {
         if (loginMessage.getStatus()) {
             Long parentId = parentService.getParentIdByPhoneNumber(loginDTO.getPhoneNumber());
             loginMessage.setParentId(parentId);
+            String parentName = parentService.getParentNameById(parentId);
+            loginMessage.setParentName(parentName);
+
 
             List<Baby> babies = parentService.getBabiesByParentId(parentId);
             loginMessage.setBabies(babies);

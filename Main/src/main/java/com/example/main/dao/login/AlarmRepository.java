@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
     List<Alarm> findByIsActiveTrueAndAlarmTimeBefore(LocalDateTime now);
-}
 
+    List<Alarm> findByBabyId(Long babyId);
+}
