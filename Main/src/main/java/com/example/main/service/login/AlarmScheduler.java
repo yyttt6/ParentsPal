@@ -11,18 +11,18 @@ import java.util.List;
 public class AlarmScheduler {
 
     @Autowired
-    private AlarmService alarmService;
+    private AlarmServiceImpl alarmServiceImpl;
 
     @Scheduled(fixedRate = 60000)
     public void checkAndTriggerAlarms() {
-        List<Alarm> dueAlarms = alarmService.checkAlarms();
+        List<Alarm> dueAlarms = alarmServiceImpl.checkAlarms();
 
         for (Alarm alarm : dueAlarms) {
             triggerAlarm(alarm);
 
 
             if (!alarm.getRecurring()) {
-                alarmService.disableAlarm(alarm.getId());
+                alarmServiceImpl.disableAlarm(alarm.getId());
             } else {
 
                 LocalDateTime nextAlarmTime = calculateNextAlarmTime(alarm);
@@ -31,9 +31,9 @@ public class AlarmScheduler {
                 alarmDTO.setActivityType(alarm.getActivityType());
                 alarmDTO.setAlarmTime(nextAlarmTime);
                 alarmDTO.setIsRecurring(alarm.getRecurring());
-                alarmDTO.setFrequency(alarm.getFrequency());
+                alarmDTO.setCustomIntervalInHours(alarm.getCustomIntervalInHours());
 
-                alarmService.setAlarm(alarm.getBabyId(), alarmDTO);
+                alarmServiceImpl.setAlarm(alarm.getBabyId(), alarmDTO);
             }
         }
     }
@@ -43,11 +43,7 @@ public class AlarmScheduler {
     }
 
     private LocalDateTime calculateNextAlarmTime(Alarm alarm) {
-        switch (alarm.getFrequency()) {
-            case "hourly": return alarm.getAlarmTime().plusHours(1);
-            case "daily": return alarm.getAlarmTime().plusDays(1);
-            default: return alarm.getAlarmTime();
-        }
+        return alarm.getAlarmTime().plusHours(alarm.getCustomIntervalInHours());
     }
 }
 

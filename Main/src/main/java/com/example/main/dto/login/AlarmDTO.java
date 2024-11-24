@@ -6,7 +6,7 @@ public class AlarmDTO {
     private String activityType;
     private LocalDateTime alarmTime;
     private Boolean isRecurring;
-    private String frequency;
+    private Integer customIntervalInHours;
 
     public String getActivityType() {
         return activityType;
@@ -32,12 +32,13 @@ public class AlarmDTO {
         this.isRecurring = isRecurring;
     }
 
-    public String getFrequency() {
-        return frequency;
+    public Integer getCustomIntervalInHours() {
+        return customIntervalInHours;
     }
 
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
+    public void setCustomIntervalInHours(Integer customIntervalInHours) {
+        this.customIntervalInHours = customIntervalInHours;
     }
 }
+
 
