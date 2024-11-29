@@ -5,7 +5,7 @@ import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.conv.MessageDTO;
 import com.example.main.converter.conv.MessageConverter;
-import com.example.main.firebase.conv.FcmNotificationService;
+//import com.example.main.firebase.conv.FcmNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.main.Response;
@@ -25,15 +25,15 @@ public class ConversationService {
     private ParentRepository userRepository;
     @Autowired
     private MessageConverter messageConverter;
-    @Autowired
-    private final EncryptionService encryptionService;
-    @Autowired
-    private final FcmNotificationService fcmNotificationService;
+//    @Autowired
+//    private final EncryptionService encryptionService;
+//    @Autowired
+//    private final FcmNotificationService fcmNotificationService;
 
-    public ConversationService(EncryptionService encryptionService, FcmNotificationService fcmNotificationService) {
-        this.fcmNotificationService = fcmNotificationService;
-        this.encryptionService = encryptionService;
-    }
+//    public ConversationService(EncryptionService encryptionService, FcmNotificationService fcmNotificationService) {
+//        this.fcmNotificationService = fcmNotificationService;
+//        this.encryptionService = encryptionService;
+//    }
 
     public Response<Long> getUserIdByUsername(String username) {
 
@@ -113,7 +113,7 @@ public class ConversationService {
         message.setConversationId(conversation_id);
         message.setSenderId(sender_id);
         message.setReceiverId(receiver_id);
-        message.setContent(encryptionService.encrypt(content));
+//        message.setContent(encryptionService.encrypt(content));
         message.setCreatedAt(LocalDateTime.now());
         Message savedMessage = messageRepository.save(message);
         return Response.newSuccess(savedMessage);

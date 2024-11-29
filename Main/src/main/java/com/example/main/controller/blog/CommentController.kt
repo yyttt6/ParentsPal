@@ -13,7 +13,12 @@ class CommentController {
 
     @GetMapping("/comment/{id}")
     fun getComment(@PathVariable("id") id: Long): Response<Comment> {
-        return Response.newSuccess(commentService.getCommentById(id))
+        return commentService.getCommentById(id)
+    }
+
+    @GetMapping("/comment-article/{articleId}")
+    fun getArticleList(@PathVariable("articleId") articleId: Long): Response<List<Comment>> {
+        return Response.newSuccess(commentService.getCommentsByArticleId(articleId))
     }
 
     @PostMapping("/comment")

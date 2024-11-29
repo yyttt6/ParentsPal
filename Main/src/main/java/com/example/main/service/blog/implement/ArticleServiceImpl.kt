@@ -29,12 +29,12 @@ open class ArticleServiceImpl : ArticleService {
     }
 
     override fun getArticleByUserId(userId: Long): List<Article> {
-        return articleRepository.findByIdUser(userId).ifEmpty { throw RuntimeException("No articles found for user with id: $userId") }
+        return articleRepository.findByUserId(userId).ifEmpty { throw RuntimeException("No articles found for user with id: $userId") }
     }
 
     override fun createArticle(article: Article): Long? {
         // 寻找用户id
-        val userOptional: Optional<Parent> = userRepository.findById(article.idUser)
+        val userOptional: Optional<Parent> = userRepository.findById(article.userId)
 
         // 查看用户是否存在
         if (userOptional.isPresent) {
@@ -47,7 +47,7 @@ open class ArticleServiceImpl : ArticleService {
 
         } else {
             // 不存在则报错
-            throw NoSuchElementException("No user found with id: ${article.idUser}")
+            throw NoSuchElementException("No user found with id: ${article.userId}")
         }
     }
 

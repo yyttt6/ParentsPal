@@ -1,5 +1,6 @@
 package com.example.main.service.implement
 
+import com.example.main.Response
 import com.example.main.dao.blog.repository.CommentRepository
 import com.example.main.dao.blog.Comment
 import com.example.main.dao.login.Parent
@@ -18,8 +19,16 @@ open class CommentServiceImpl: CommentService {
     @Autowired
     private lateinit var userRepository: ParentRepository
 
-    override fun getCommentById(id: Long): Comment {
-        return commentRepository.findById(id).orElseThrow{ RuntimeException("Comment not found") }
+    override fun getCommentById(id: Long): Response<Comment> {
+        val comment = commentRepository.findById(id)
+        return if (comment.isPresent) {
+            Response.newSuccess(comment.get())
+        } else {
+            Response.newFail("Comment not found with id: $id")
+        }    }
+
+    override fun getCommentsByArticleId(articleId: Long): List<Comment> {
+        return commentRepository.findByArticleId(articleId).ifEmpty { throw RuntimeException("No comments found for article with id: $articleId") }
     }
 
     override fun createComment(comment: Comment): Long? {

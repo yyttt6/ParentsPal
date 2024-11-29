@@ -18,7 +18,7 @@ class Comment (
     var userId: Long,
 
     @Column(name = "username")
-    var username: String,
+    var username: String = "",
 
     @Column(name = "content")
     var content: String,
