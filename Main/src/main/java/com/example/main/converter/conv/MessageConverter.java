@@ -27,8 +27,8 @@ public class MessageConverter {
         Optional<Parent> optionalParent1 = userRepository.findById(Long.valueOf(message.getSenderId()));
         String senderName = optionalParent1.map(Parent::getName).orElse("Unknown");
         messageDTO.setSender_name(senderName);
-        Optional<Parent> optionalParent2 = userRepository.findById(Long.valueOf(message.getSenderId()));
-        String receiverName = optionalParent1.map(Parent::getName).orElse("Unknown");
+        Optional<Parent> optionalParent2 = userRepository.findById(Long.valueOf(message.getReceiverId()));
+        String receiverName = optionalParent2.map(Parent::getName).orElse("Unknown");
         messageDTO.setReceiver_name(receiverName);
 
         messageDTO.setContent(encryptionService.decrypt(message.getContent()));

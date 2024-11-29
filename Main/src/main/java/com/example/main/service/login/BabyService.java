@@ -36,5 +36,9 @@ public class BabyService {
     public void deleteBaby(Long id) {
         babyRepository.deleteById(id);
     }
+
+    public List<Baby> getBabiesByParentId(Long parentId) {
+        return babyRepository.findByParentId(parentId);
+    }
 }
 

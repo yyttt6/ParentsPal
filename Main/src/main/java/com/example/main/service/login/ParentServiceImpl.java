@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.BabyRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ParentServiceImpl implements ParentService {
@@ -20,15 +22,26 @@ public class ParentServiceImpl implements ParentService {
     private BabyRepository babyRepository;
 
     @Override
-    public String addNewAppUser (ParentDTO parentDTO) {
+    public LoginMessage addNewAppUser (ParentDTO parentDTO) {
+
+        if (parentRepository.existsByPhoneNumber(parentDTO.getPhoneNumber())) {
+            return new LoginMessage("Phone number already exists", false);
+        }
+
+
+
         Parent parent = new Parent(
                 parentDTO.getId(),
                 parentDTO.getName(),
                 parentDTO.getPhoneNumber(),
                 parentDTO.getPassword()
         );
-        parentRepository.save(parent);
-        return parent.getName();
+        Parent savedParent = parentRepository.save(parent);
+
+        LoginMessage loginMessage = new LoginMessage("Registration successful", true);
+        loginMessage.setParentId(savedParent.getId());
+        loginMessage.setParentName(savedParent.getName());
+        return loginMessage;
     }
     @Override
     public LoginMessage loginAppUser(LoginDTO loginDTO) {
@@ -40,8 +53,10 @@ public class ParentServiceImpl implements ParentService {
             Boolean isPwdRight = password.equals(storedPassword);
             if (isPwdRight) {
                 Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), storedPassword);
+
                 if (employee.isPresent()) {
-                    return new LoginMessage("Login Success", true);
+                    Parent loggedInParent = employee.get();
+                    return new LoginMessage("Login Success. Parent ID: " + loggedInParent.getId(), true);
                 } else {
                     return new LoginMessage("Login Failed", false);
                 }
@@ -73,4 +88,27 @@ public class ParentServiceImpl implements ParentService {
             return null;
         }
     }
+
+    @Override
+    public Long getParentIdByPhoneNumber(String phoneNumber) {
+        Parent parent = parentRepository.findByPhoneNumber(phoneNumber);
+        return parent != null ? parent.getId() : null;
+    }
+
+    @Override
+    public List<Baby> getBabiesByParentId(Long parentId) {
+        Optional<Parent> optionalParent = parentRepository.findById(parentId);
+        if (optionalParent.isPresent()) {
+            Parent parent = optionalParent.get();
+            return parent.getBabies();
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String getParentNameById(Long parentId) {
+        Optional<Parent> parentOpt = parentRepository.findById(parentId);
+        return parentOpt.map(Parent::getName).orElse(null);
+    }
+
 }

@@ -2,16 +2,18 @@ package com.example.main.controller.login;
 
 import com.example.main.dto.login.AlarmDTO;
 import com.example.main.dao.login.Alarm;
-import com.example.main.service.login.AlarmService;
+import com.example.main.service.login.AlarmServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/alarms")
+@RequestMapping("/api/v1/alarms")
 public class AlarmController {
 
     @Autowired
-    private AlarmService alarmService;
+    private AlarmServiceImpl alarmService;
 
     @PostMapping("/set/{babyId}")
     public Alarm setAlarm(
@@ -20,6 +22,11 @@ public class AlarmController {
     ) {
 
         return alarmService.setAlarm(babyId, alarmDTO);
+    }
+
+    @GetMapping("/get/{babyId}")
+    public List<Alarm> getAlarmsByBabyId(@PathVariable Long babyId) {
+        return alarmService.getAlarmsByBabyId(babyId);
     }
 
     @PostMapping("/disable/{alarmId}")

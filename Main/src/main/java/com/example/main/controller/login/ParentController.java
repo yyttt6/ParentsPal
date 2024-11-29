@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1/appuser")
@@ -16,16 +18,31 @@ public class ParentController {
     @Autowired
     private ParentService parentService;
     @PostMapping(path = "/register")
-    public String saveAppUser(@RequestBody ParentDTO parentDTO)
+    public ResponseEntity<?> saveAppUser(@RequestBody ParentDTO parentDTO)
     {
-        String name =  parentService.addNewAppUser(parentDTO);
-        return name;
+        LoginMessage responseMessage = parentService.addNewAppUser(parentDTO);
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage );
+        }
+        return ResponseEntity.status(409).body(responseMessage );
     }
     @PostMapping(path = "/login")
     public ResponseEntity<?> loginAppUser(@RequestBody LoginDTO loginDTO)
     {
         LoginMessage loginMessage =  parentService.loginAppUser(loginDTO);
-        return ResponseEntity.ok(loginMessage);
+        if (loginMessage.getStatus()) {
+            Long parentId = parentService.getParentIdByPhoneNumber(loginDTO.getPhoneNumber());
+            loginMessage.setParentId(parentId);
+            String parentName = parentService.getParentNameById(parentId);
+            loginMessage.setParentName(parentName);
+
+
+            List<Baby> babies = parentService.getBabiesByParentId(parentId);
+            loginMessage.setBabies(babies);
+            return ResponseEntity.ok(loginMessage);
+        } else {
+            return ResponseEntity.status(401).body(loginMessage);
+        }
     }
 
     @PostMapping("/{parentId}/babies")
