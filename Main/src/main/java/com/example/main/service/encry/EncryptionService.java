@@ -1,4 +1,4 @@
-package com.example.main.service.conv;
+package com.example.main.service.encry;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

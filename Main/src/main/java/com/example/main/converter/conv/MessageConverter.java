@@ -4,7 +4,7 @@ import com.example.main.dao.conv.Message;
 import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.conv.MessageDTO;
-import com.example.main.service.conv.EncryptionService;
+import com.example.main.service.encry.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
