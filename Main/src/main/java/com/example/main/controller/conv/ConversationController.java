@@ -4,6 +4,8 @@ import com.example.main.Response;
 import com.example.main.dao.conv.Conversation;
 import com.example.main.dao.conv.Message;
 import com.example.main.dto.conv.MessageDTO;
+import com.example.main.dto.conv.CreateConversationDTO;
+import com.example.main.dto.conv.SaveMessageDTO;
 import com.example.main.service.conv.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +20,14 @@ public class ConversationController {
     private ConversationService conversationService;
 
     @PostMapping("/create")
-    public Response<Conversation> createConversation(@RequestParam String username1, @RequestParam String username2) {
-        return conversationService.createConversationIfNotExists(username1, username2);
+    public Response<Conversation> createConversation(@RequestBody CreateConversationDTO dto) {
+        return conversationService.createConversationIfNotExists(dto.getUsername1(), dto.getUsername2());
     }
 
     @PostMapping("/message")
-    public Response<Message> saveMessage(@RequestParam String senderUsername, @RequestParam String receiverUsername,
-                                         @RequestParam String content, @RequestParam(required = false) Integer conversation_id) {
+    public Response<Message> saveMessage(@RequestBody SaveMessageDTO dto) {
 //        conversationService.sendLastMessage(content, senderUsername, receiverUsername);
-        return conversationService.saveMessage(senderUsername, receiverUsername, content, conversation_id);
+        return conversationService.saveMessage(dto.getSenderUsername(), dto.getReceiverUsername(), dto.getContent());
     }
 
     @GetMapping("/latest-messages")

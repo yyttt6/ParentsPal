@@ -25,8 +25,8 @@ public class ConversationService {
     private ParentRepository userRepository;
     @Autowired
     private MessageConverter messageConverter;
-//    @Autowired
-//    private final EncryptionService encryptionService;
+    @Autowired
+    private final EncryptionService encryptionService;
 //    @Autowired
 //    private final FcmNotificationService fcmNotificationService;
 
@@ -34,7 +34,9 @@ public class ConversationService {
 //        this.fcmNotificationService = fcmNotificationService;
 //        this.encryptionService = encryptionService;
 //    }
-
+    public ConversationService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
     public Response<Long> getUserIdByUsername(String username) {
 
         if (username == null || username.isEmpty()) {
@@ -86,7 +88,7 @@ public class ConversationService {
 //            }
 //        }
 //    }
-    public Response<Message> saveMessage(String senderUsername, String receiverUsername, String content, Integer conversation_id) {
+    public Response<Message> saveMessage(String senderUsername, String receiverUsername, String content) {
 
         Response<Long> senderIdResponse = getUserIdByUsername(senderUsername);
         if (!senderIdResponse.isSuccess()) {
@@ -101,19 +103,19 @@ public class ConversationService {
         Integer sender_id = Math.toIntExact(senderIdResponse.getData());
         Integer receiver_id = Math.toIntExact(receiverIdResponse.getData());
 
-        if (conversation_id == null) {
-            Response<Conversation> conversationResponse = createConversationIfNotExists(senderUsername, receiverUsername);
-            if (!conversationResponse.isSuccess()) {
-                return Response.newFail(conversationResponse.getErrorMsg());
-            }
-            conversation_id = conversationResponse.getData().getConversationId();
+
+        Response<Conversation> conversationResponse = createConversationIfNotExists(senderUsername, receiverUsername);
+        if (!conversationResponse.isSuccess()) {
+            return Response.newFail(conversationResponse.getErrorMsg());
         }
+        Integer conversation_id = conversationResponse.getData().getConversationId();
+
 
         Message message = new Message();
         message.setConversationId(conversation_id);
         message.setSenderId(sender_id);
         message.setReceiverId(receiver_id);
-//        message.setContent(encryptionService.encrypt(content));
+        message.setContent(encryptionService.encrypt(content));
         message.setCreatedAt(LocalDateTime.now());
         Message savedMessage = messageRepository.save(message);
         return Response.newSuccess(savedMessage);
