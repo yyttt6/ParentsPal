@@ -1,4 +1,4 @@
-package com.example.main.dao.conv;
+package com.example.main.dao.aiconv;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 

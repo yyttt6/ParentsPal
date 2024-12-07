@@ -1,4 +1,4 @@
-package com.example.main.dao.conv;
+package com.example.main.dao.aiconv;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
