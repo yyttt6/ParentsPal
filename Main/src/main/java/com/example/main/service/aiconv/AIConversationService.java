@@ -76,7 +76,7 @@ public class AIConversationService {
         return Response.newSuccess(savedAIConversation);
     }
 
-    public Response<AIMessage> newAIMessage(String AIconvID, String query, String answer) {
+    public Response<AIMessageDTO> newAIMessage(String AIconvID, String query, String answer) {
 
         AIMessage AImess = new AIMessage();
         AImess.setConversationId(AIconvID);
@@ -85,10 +85,10 @@ public class AIConversationService {
         AImess.setCreatedAt(LocalDateTime.now());
 
         AIMessage savedAIMessage = aiMessageRepository.save(AImess);
-        return Response.newSuccess(savedAIMessage);
+        return Response.newSuccess(aiMessageConverter.convertAIMessage(savedAIMessage));
     }
 
-    public Response<AIMessage> getAIMessage(String username, String query, String mode, String AIconvID) {
+    public Response<AIMessageDTO> getAIMessage(String username, String query, String mode, String AIconvID) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + API_KEY);
@@ -115,7 +115,7 @@ public class AIConversationService {
                 }
             }
 
-            Response<AIMessage> messageResponse = newAIMessage(convID, query, answer);
+            Response<AIMessageDTO> messageResponse = newAIMessage(convID, query, answer);
             if (!messageResponse.isSuccess()) {
                 return Response.newFail(messageResponse.getErrorMsg());
             }

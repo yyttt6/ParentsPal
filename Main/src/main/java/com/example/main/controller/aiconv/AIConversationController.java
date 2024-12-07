@@ -18,7 +18,7 @@ public class AIConversationController {
     private AIConversationService aiConversationService;
 
     @PostMapping("/message")
-    public Response<AIMessage> newAIMessage(@RequestBody newMessageDTO dto) {
+    public Response<AIMessageDTO> newAIMessage(@RequestBody newMessageDTO dto) {
         return aiConversationService.getAIMessage(dto.getUsername(), dto.getQuery(), dto.getMode(), dto.getConversationId());
     }
 
