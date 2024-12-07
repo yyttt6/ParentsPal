@@ -120,3 +120,9 @@ CREATE TABLE message (
     FOREIGN KEY (receiver_id) REFERENCES Parent(id)  
 );  
   
+CREATE TABLE fcm_token (
+    user_id BIGINT NOT NULL,
+    token VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Parent(id),
+    UNIQUE INDEX idx_user_id (user_id)
+);

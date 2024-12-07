@@ -6,6 +6,10 @@ import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.conv.MessageDTO;
 import com.example.main.converter.conv.MessageConverter;
 //import com.example.main.firebase.conv.FcmNotificationService;
+import com.example.main.firebase.FCMService;
+import com.example.main.service.encry.EncryptionService;
+import com.example.main.service.fcm.FCMTokenService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.main.Response;
@@ -25,16 +29,21 @@ public class ConversationService {
     private ParentRepository userRepository;
     @Autowired
     private MessageConverter messageConverter;
-//    @Autowired
-//    private final EncryptionService encryptionService;
-//    @Autowired
-//    private final FcmNotificationService fcmNotificationService;
+    @Autowired
+    private final EncryptionService encryptionService;
 
-//    public ConversationService(EncryptionService encryptionService, FcmNotificationService fcmNotificationService) {
-//        this.fcmNotificationService = fcmNotificationService;
-//        this.encryptionService = encryptionService;
-//    }
+    @Autowired
+    private final FCMTokenService fcmTokenService;
+    @Autowired
+    private final FCMService fcmNotificationService;
 
+    public ConversationService(EncryptionService encryptionService,
+                               FCMService fcmNotificationService,
+                               FCMTokenService fcmTokenService) {
+        this.fcmNotificationService = fcmNotificationService;
+        this.encryptionService = encryptionService;
+        this.fcmTokenService = fcmTokenService;
+    }
     public Response<Long> getUserIdByUsername(String username) {
 
         if (username == null || username.isEmpty()) {
@@ -74,19 +83,11 @@ public class ConversationService {
         }
     }
 
-//    public void sendLastMessage(String content, String senderUsername, String receiverUsername){
-//        Parent user2 = userRepository.getByName(receiverUsername).orElse(null);
-//        if (user2 != null && user2.getDeviceToken() != null) {
-//            if (!content.isEmpty()) {
-//                fcmNotificationService.sendChatMessageNotification(
-//                        user2.getDeviceToken(),
-//                        senderUsername,
-//                        content
-//                );
-//            }
-//        }
-//    }
-    public Response<Message> saveMessage(String senderUsername, String receiverUsername, String content, Integer conversation_id) {
+    public void sendMessage(String content, Long receiverId) {
+        String token = fcmTokenService.getTokenByUserId(receiverId);
+        fcmNotificationService.sendMessageToDevice(token, "New message", content);
+    }
+    public Response<Message> saveMessage(String senderUsername, String receiverUsername, String content) {
 
         Response<Long> senderIdResponse = getUserIdByUsername(senderUsername);
         if (!senderIdResponse.isSuccess()) {
@@ -101,21 +102,22 @@ public class ConversationService {
         Integer sender_id = Math.toIntExact(senderIdResponse.getData());
         Integer receiver_id = Math.toIntExact(receiverIdResponse.getData());
 
-        if (conversation_id == null) {
-            Response<Conversation> conversationResponse = createConversationIfNotExists(senderUsername, receiverUsername);
-            if (!conversationResponse.isSuccess()) {
-                return Response.newFail(conversationResponse.getErrorMsg());
-            }
-            conversation_id = conversationResponse.getData().getConversationId();
+
+        Response<Conversation> conversationResponse = createConversationIfNotExists(senderUsername, receiverUsername);
+        if (!conversationResponse.isSuccess()) {
+            return Response.newFail(conversationResponse.getErrorMsg());
         }
+        Integer conversation_id = conversationResponse.getData().getConversationId();
+
 
         Message message = new Message();
         message.setConversationId(conversation_id);
         message.setSenderId(sender_id);
         message.setReceiverId(receiver_id);
-//        message.setContent(encryptionService.encrypt(content));
+        message.setContent(encryptionService.encrypt(content));
         message.setCreatedAt(LocalDateTime.now());
         Message savedMessage = messageRepository.save(message);
+        sendMessage(content, Long.valueOf(receiver_id));
         return Response.newSuccess(savedMessage);
     }
     public Response<List<MessageDTO>> getLatestMessagesForUser(String username) {
