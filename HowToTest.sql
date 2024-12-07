@@ -126,3 +126,21 @@ CREATE TABLE fcm_token (
     FOREIGN KEY (user_id) REFERENCES Parent(id),
     UNIQUE INDEX idx_user_id (user_id)
 );
+
+CREATE TABLE aiconversation (
+    conversation_id VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,
+    user_id BIGINT NOT NULL, 
+    conversation_name VARCHAR(1000),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (conversation_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE aimessage (
+    message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,
+    query VARCHAR(2000) CHARACTER SET utf8mb4 NOT NULL,
+    answer VARCHAR(4000) CHARACTER SET utf8mb4 NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (conversation_id) REFERENCES aiconversation(conversation_id),
+    INDEX idx_message_conversation_timestamp (conversation_id, created_at DESC)
+);

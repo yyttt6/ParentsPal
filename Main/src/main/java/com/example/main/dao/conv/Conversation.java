@@ -22,7 +22,6 @@ public class Conversation {
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime created_at;
 
-    // Getters and Setters
     public Integer getConversationId() {
         return conversation_id;
     }
