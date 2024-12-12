@@ -162,8 +162,8 @@ CREATE TABLE conversation (
     user1_id BIGINT NOT NULL,  
     user2_id BIGINT NOT NULL,  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
-    FOREIGN KEY (user1_id) REFERENCES Parent(id),  
-    FOREIGN KEY (user2_id) REFERENCES Parent(id),  
+    FOREIGN KEY (user1_id) REFERENCES Parent(user_id),  
+    FOREIGN KEY (user2_id) REFERENCES Parent(user_id),  
     UNIQUE (user1_id, user2_id)  
 );  
   
@@ -175,14 +175,14 @@ CREATE TABLE message (
     content VARCHAR(1000) NOT NULL,  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     FOREIGN KEY (conversation_id) REFERENCES conversation(conversation_id),  
-    FOREIGN KEY (sender_id) REFERENCES Parent(id),  
-    FOREIGN KEY (receiver_id) REFERENCES Parent(id)  
+    FOREIGN KEY (sender_id) REFERENCES Parent(user_id),  
+    FOREIGN KEY (receiver_id) REFERENCES Parent(user_id)  
 );  
   
 CREATE TABLE fcm_token (
     user_id BIGINT NOT NULL,
     token VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES Parent(id),
+    FOREIGN KEY (user_id) REFERENCES Parent(user_id),
     UNIQUE INDEX idx_user_id (user_id)
 );
 
