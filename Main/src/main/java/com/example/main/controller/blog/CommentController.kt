@@ -32,14 +32,14 @@ class CommentController {
         return commentService.createComment(commentDTO)
     }
 
-    @DeleteMapping("/api/comment/{commentId}")
-    fun deleteComment(@PathVariable commentId: Long) {
-        commentService.deleteCommentById(commentId)
-    }
-
     @PostMapping("/api/comment/{commentId}")
     fun updateComment(@PathVariable commentId: Long, @RequestBody comment: CommentDTO): Response<Comment> {
         return commentService.updateCommentById(commentId, comment)
+    }
+
+    @DeleteMapping("/api/comment/{commentId}")
+    fun deleteComment(@PathVariable commentId: Long) {
+        commentService.deleteCommentById(commentId)
     }
 
     @PutMapping("/api/comment/{userId}/{aspect}/{commentId}&{op}")

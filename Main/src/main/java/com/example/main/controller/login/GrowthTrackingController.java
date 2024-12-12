@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/babies")
+@RequestMapping("/api/babies")
 public class GrowthTrackingController {
     @Autowired
     private GrowthTrackingService growthTrackingService;
@@ -33,5 +33,15 @@ public class GrowthTrackingController {
         List<GrowthTracking> growthTrackings = growthTrackingService.getGrowthTrackingByBabyId(babyId);
         return ResponseEntity.ok(growthTrackings);
     }
+
+    @DeleteMapping("/{babyId}/growth/{growthTrackingId}")
+    public ResponseEntity<Void> deleteGrowthTracking(
+        @PathVariable Long babyId,
+        @PathVariable Long growthTrackingId) {
+
+        growthTrackingService.deleteGrowthTracking(babyId, growthTrackingId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 

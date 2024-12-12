@@ -27,4 +27,11 @@ public class GrowthTrackingService {
     public List<GrowthTracking> getGrowthTrackingByBabyId(Long babyId) {
         return growthTrackingRepository.findByBabyId(babyId);
     }
+
+    public void deleteGrowthTracking(Long babyId, Long growthTrackingId) {
+        GrowthTracking growthTracking = growthTrackingRepository.findByIdAndBabyId(growthTrackingId, babyId)
+                .orElseThrow(() -> new IllegalArgumentException("Growth tracking entry not found for the given baby ID and growth tracking ID"));
+        growthTrackingRepository.delete(growthTracking);
+    }
+
 }

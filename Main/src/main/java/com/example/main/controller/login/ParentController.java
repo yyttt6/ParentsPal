@@ -10,10 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/appuser")
+@RequestMapping("api/appuser")
 public class ParentController {
     @Autowired
     private ParentService parentService;
@@ -49,5 +50,20 @@ public class ParentController {
     public ResponseEntity<Baby> addBabyToParent(@PathVariable Long parentId, @RequestBody Baby baby) {
         Baby addedBaby = parentService.addBabyToParent(parentId, baby);
         return ResponseEntity.ok(addedBaby);
+    }
+
+    @PatchMapping("/{parentId}/change-password")
+    public ResponseEntity<?> changePassword(
+        @PathVariable Long parentId,
+        @RequestBody Map<String, String> passwordData) {
+
+        String oldPassword = passwordData.get("oldPassword");
+        String newPassword = passwordData.get("newPassword");
+    
+        LoginMessage responseMessage = parentService.changePassword(parentId, oldPassword, newPassword);
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage);
+        }
+        return ResponseEntity.status(400).body(responseMessage);
     }
 }
