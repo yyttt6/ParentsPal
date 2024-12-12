@@ -110,5 +110,26 @@ public class ParentServiceImpl implements ParentService {
         Optional<Parent> parentOpt = parentRepository.findById(parentId);
         return parentOpt.map(Parent::getName).orElse(null);
     }
+    @Override
+    public LoginMessage changePassword(Long parentId, String oldPassword, String newPassword) {
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new IllegalArgumentException("Parent not found"));
+    
+        if (!parent.getPassword().equals(oldPassword)) {
+            return new LoginMessage( "The original password is wrong.",false);
+        }
+    
+        if (newPassword.equals(oldPassword)) {
+            return new LoginMessage( "Cannot use previous password",false);
+        }
+    
+        if (newPassword == null || newPassword.isEmpty()) {
+            return new LoginMessage( "New password cannot be empty",false);
+        }
+    
+        parent.setPassword(newPassword);
+        parentRepository.save(parent);
+        return new LoginMessage( "Password changed successfully",true);
+    }
 
 }
