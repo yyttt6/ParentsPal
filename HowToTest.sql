@@ -35,9 +35,9 @@ CREATE TABLE `parent` (
 
 INSERT INTO parent (username, password, phone_number)
 VALUES
-    ('Alice', '123456789', '1111'),
-    ('Bob', '987654321', '2222'),
-    ('Carol', '999999999', '3333');
+    ('Alice', '111', '12345678901'),
+    ('Bob', '222', '12345678902'),
+    ('Carol', '333', '12345678903');
 
 CREATE TABLE Baby (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
