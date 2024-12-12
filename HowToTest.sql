@@ -21,12 +21,17 @@ COLLATE utf8mb4_general_ci;
 USE test;  
   
 --创建数据表  
-CREATE TABLE Parent (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    password VARCHAR(255),
-    phone_number VARCHAR(255)
-);
+CREATE TABLE `parent` (
+    `user_id` INT NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `password` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `phone_number` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    PRIMARY KEY (`user_id`),
+    UNIQUE KEY `user_id_unique` (`user_id`),
+    UNIQUE KEY `username_unique` (`username`),
+    UNIQUE KEY `phone_number_unique` (`phone_number`),
+    KEY `idx_userid_username` (`user_id`, `username`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE Baby (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
