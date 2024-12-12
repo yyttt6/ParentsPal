@@ -50,4 +50,19 @@ public class ParentController {
         Baby addedBaby = parentService.addBabyToParent(parentId, baby);
         return ResponseEntity.ok(addedBaby);
     }
+
+    @PatchMapping("/{parentId}/change-password")
+    public ResponseEntity<?> changePassword(
+        @PathVariable Long parentId,
+        @RequestBody Map<String, String> passwordData) {
+
+        String oldPassword = passwordData.get("oldPassword");
+        String newPassword = passwordData.get("newPassword");
+    
+        LoginMessage responseMessage = parentService.changePassword(parentId, oldPassword, newPassword);
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage);
+        }
+        return ResponseEntity.status(400).body(responseMessage);
+    }
 }
