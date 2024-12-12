@@ -3,6 +3,7 @@ package com.example.main.controller.login;
 import com.example.main.dto.login.AlarmDTO;
 import com.example.main.dao.login.Alarm;
 import com.example.main.service.login.AlarmServiceImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
