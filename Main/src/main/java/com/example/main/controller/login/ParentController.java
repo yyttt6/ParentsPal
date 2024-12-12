@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/appuser")
+@RequestMapping("api/appuser")
 public class ParentController {
     @Autowired
     private ParentService parentService;
