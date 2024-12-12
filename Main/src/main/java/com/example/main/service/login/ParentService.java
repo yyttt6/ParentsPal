@@ -23,4 +23,6 @@ public interface ParentService {
 
     String getParentNameById(Long parentId);
 
+    LoginMessage changePassword(Long parentId, String oldPassword, String newPassword);
+
 }
