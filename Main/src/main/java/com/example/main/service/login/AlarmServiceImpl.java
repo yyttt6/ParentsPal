@@ -55,4 +55,11 @@ public class AlarmServiceImpl implements AlarmService{
         alarmRepository.save(alarm);
     }
 
+    @Override
+    public void deleteAlarm(Long alarmId) {
+        Alarm alarm = alarmRepository.findById(alarmId).orElseThrow(() ->
+                new IllegalArgumentException("Alarm not found with id: " + alarmId));
+        alarmRepository.delete(alarm);
+    }
+
 }
