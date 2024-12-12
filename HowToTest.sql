@@ -45,9 +45,10 @@ CREATE TABLE Baby (
     gender VARCHAR(50),
     birthdate VARCHAR(50),
     photo_url VARCHAR(255),
-    parent_id BIGINT,
-    FOREIGN KEY (parent_id) REFERENCES Parent(id)
+    parent_id INT NOT NULL, 
+    FOREIGN KEY (parent_id) REFERENCES parent(user_id)
 );
+
 
 CREATE TABLE alarm (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
