@@ -9,10 +9,10 @@ import java.util.List;
 @Table(name = "parent")
 public class Parent {
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
 
     @Column(name = "phone_number",unique = true)

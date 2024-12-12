@@ -8,14 +8,14 @@ import java.time.LocalDateTime
 class Comment (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_comment")
+    @Column(name = "comment_id")
     var commentId: Long? = null,
 
-    @Column(name = "id_article")
-    var articleId: Long? = null,
+    @Column(name = "article_id")
+    var articleId: Long = 0,
 
-    @Column(name = "id_user")
-    var userId: Long,
+    @Column(name = "user_id")
+    var userId: Long = 0,
 
     @Column(name = "username")
     var username: String = "",
@@ -26,9 +26,9 @@ class Comment (
     @Column(name = "likes")
     var likes: Int = 0,
 
-    @Column(name = "time")
+    @Column(name = "time_created")
     var time: LocalDateTime = LocalDateTime.now(),
 ) {
-    // No-arg constructor required by JPA
-    constructor() : this(null, null, 0, "", "", 0, LocalDateTime.now())
+    // JPA 要求的无参构造函数
+    constructor() : this(null, 0, 0, "", "", 0, LocalDateTime.now())
 }

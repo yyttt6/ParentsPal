@@ -35,6 +35,6 @@ class QnA (
     @Column(name = "time", nullable = false)
     var time: LocalDateTime = LocalDateTime.now(),
 ) {
-    // No-arg constructor required by JPA
+    // JPA 要求的无参构造函数
     constructor() : this(null, 0, "", "", "", 0, 0, 0, LocalDateTime.now())
 }
