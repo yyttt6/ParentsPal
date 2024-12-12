@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/alarms")
+@RequestMapping("/api/alarms")
 public class AlarmController {
 
     @Autowired
@@ -32,6 +32,12 @@ public class AlarmController {
     @PostMapping("/disable/{alarmId}")
     public void disableAlarm(@PathVariable Long alarmId) {
         alarmService.disableAlarm(alarmId);
+    }
+
+    @DeleteMapping("/delete/{alarmId}")
+    public ResponseEntity<String> deleteAlarm(@PathVariable Long alarmId) {
+        alarmService.deleteAlarm(alarmId);
+        return ResponseEntity.ok("Alarm deleted successfully");
     }
 }
 
