@@ -2,6 +2,7 @@ package com.example.main.controller.blog
 
 import com.example.main.Response
 import com.example.main.dao.blog.Comment
+import com.example.main.dto.blog.CommentDTO
 import com.example.main.service.blog.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -11,37 +12,43 @@ class CommentController {
     @Autowired
     private lateinit var commentService: CommentService
 
-    @GetMapping("/comment/{id}")
-    fun getComment(@PathVariable("id") id: Long): Response<Comment> {
-        return commentService.getCommentById(id)
+    @GetMapping("/api/comment/{commentId}")
+    fun getComment(@PathVariable("commentId") commentId: Long): Response<Comment> {
+        return commentService.getCommentById(commentId)
     }
 
-    @GetMapping("/comment-article/{articleId}")
-    fun getArticleList(@PathVariable("articleId") articleId: Long): Response<List<Comment>> {
-        return Response.newSuccess(commentService.getCommentsByArticleId(articleId))
+    @GetMapping("/api/{category}-comment")
+    fun getCommentList(
+        @PathVariable("category") category: String,
+        @RequestParam("articleId", defaultValue = "0") articleId: Long,
+        @RequestParam("userId", defaultValue = "0") userId: Long
+    ): Response<List<Comment>> {
+        return commentService.getCommentsByCategoryAndId(category, articleId, userId)
     }
 
-    @PostMapping("/comment")
-    fun createComment(@RequestBody comment: Comment): Response<Long?> {
-        return Response.newSuccess(commentService.createComment(comment))
+
+    @PostMapping("/api/comment")
+    fun createComment(@RequestBody commentDTO: CommentDTO): Response<Long?> {
+        return commentService.createComment(commentDTO)
     }
 
-    @DeleteMapping("/comment/{id}")
-    fun deleteComment(@PathVariable id: Long) {
-        commentService.deleteCommentById(id)
+    @DeleteMapping("/api/comment/{commentId}")
+    fun deleteComment(@PathVariable commentId: Long) {
+        commentService.deleteCommentById(commentId)
     }
 
-    @PutMapping("/comment/{id}")
-    fun updateComment(@PathVariable id: Long, @RequestParam(required = false) content: String): Response<Comment> {
-        return Response.newSuccess(commentService.updateCommentById(id, content))
+    @PostMapping("/api/comment/{commentId}")
+    fun updateComment(@PathVariable commentId: Long, @RequestBody comment: CommentDTO): Response<Comment> {
+        return commentService.updateCommentById(commentId, comment)
     }
 
-    @PutMapping("/comment/{aspect}/{id}&{op}")
+    @PutMapping("/api/comment/{userId}/{aspect}/{commentId}&{op}")
     fun updateCommentStatus(
-        @PathVariable id: Long,
+        @PathVariable userId: Long,
         @PathVariable aspect: String,
-        @PathVariable op: Int
+        @PathVariable commentId: Long,
+        @PathVariable op: String
     ): Response<Comment> {
-        return Response.newSuccess(commentService.updateCommentStatusById(id, aspect, op))
+        return commentService.updateCommentStatusById(userId, commentId, aspect, op)
     }
 }
