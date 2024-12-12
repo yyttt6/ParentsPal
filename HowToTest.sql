@@ -160,8 +160,8 @@ CREATE TABLE liked_comment(
 
 CREATE TABLE conversation (  
     conversation_id INT AUTO_INCREMENT PRIMARY KEY,  
-    user1_id BIGINT NOT NULL,  
-    user2_id BIGINT NOT NULL,  
+    user1_id INT NOT NULL,  
+    user2_id INT NOT NULL,  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     FOREIGN KEY (user1_id) REFERENCES Parent(user_id),  
     FOREIGN KEY (user2_id) REFERENCES Parent(user_id),  
@@ -171,8 +171,8 @@ CREATE TABLE conversation (
 CREATE TABLE message (  
     message_id INT AUTO_INCREMENT PRIMARY KEY,  
     conversation_id INT NOT NULL,  
-    sender_id BIGINT NOT NULL,  
-    receiver_id BIGINT NOT NULL,  
+    sender_id INT NOT NULL,  
+    receiver_id INT NOT NULL,  
     content VARCHAR(1000) NOT NULL,  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     FOREIGN KEY (conversation_id) REFERENCES conversation(conversation_id),  
@@ -181,7 +181,7 @@ CREATE TABLE message (
 );  
   
 CREATE TABLE fcm_token (
-    user_id BIGINT NOT NULL,
+    user_id INT NOT NULL,
     token VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Parent(user_id),
     UNIQUE INDEX idx_user_id (user_id)
@@ -189,7 +189,7 @@ CREATE TABLE fcm_token (
 
 CREATE TABLE aiconversation (
     conversation_id VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,
-    user_id BIGINT NOT NULL, 
+    user_id INT NOT NULL, 
     conversation_name VARCHAR(1000),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (conversation_id)
