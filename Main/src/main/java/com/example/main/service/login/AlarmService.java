@@ -9,6 +9,7 @@ public interface AlarmService {
     Alarm setAlarm(Long babyId, AlarmDTO alarmDTO);
     void disableAlarm(Long alarmId);
     List<Alarm> getAlarmsByBabyId(Long babyId);
+    void deleteAlarm(Long alarmId);
 }
 
 
