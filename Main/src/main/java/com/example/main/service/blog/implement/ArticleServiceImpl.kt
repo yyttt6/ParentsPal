@@ -30,8 +30,10 @@ open class ArticleServiceImpl : ArticleService {
 
     @Autowired
     private lateinit var articleRepository: ArticleRepository
+
     @Autowired
     private lateinit var userRepository: ParentRepository
+
     @Autowired
     private lateinit var elasticsearchClient: ElasticsearchClient
 
@@ -58,9 +60,9 @@ open class ArticleServiceImpl : ArticleService {
                     // 获取该用户的所有文章
                     val articles = articleRepository.findByUserId(userId)
                     if (articles.isNotEmpty()) {
-                        return Response.newSuccess(articles)
+                        Response.newSuccess(articles)
                     } else {
-                        return Response.newFail("用户ID为 $userId 的文章不存在")
+                        Response.newFail("用户ID为 $userId 的文章不存在")
                     }
                 }
 
@@ -85,7 +87,7 @@ open class ArticleServiceImpl : ArticleService {
                     }
 
                     // 返回成功并提供点赞的文章列表
-                    return Response.newSuccess(articles)
+                    Response.newSuccess(articles)
                 }
 
                 "saved" -> {
@@ -109,17 +111,88 @@ open class ArticleServiceImpl : ArticleService {
                     }
 
                     // 返回成功并提供点赞的文章列表
-                    return Response.newSuccess(articles)
+                    Response.newSuccess(articles)
                 }
 
                 else -> {
                     // 如果传入的category无效
-                    return Response.newFail("无效的类别: $category")
+                    Response.newFail("无效的类别: $category")
                 }
             }
         } catch (e: Exception) {
             // 捕获异常并返回失败信息
-            return Response.newFail("获取用户ID为 $userId 的文章失败 - ${e.message}")
+            Response.newFail("获取用户ID为 $userId 的文章失败 - ${e.message}")
+        }
+    }
+
+    // 根据关键词搜索文章
+    override fun searchArticleByKeyword(keyword: String, page: Int, pageSize: Int): Response<List<Article>> {
+        return try {
+            // 计算分页参数
+            val from = (page - 1) * pageSize
+
+            // 构建 Elasticsearch 查询请求
+            val searchRequest = SearchRequest.Builder()
+                .index("article") // 索引名称
+                .query { q ->
+                    q.multiMatch { mm ->
+                        mm.query(keyword) // 搜索关键词
+                            .fields("title^2", "content") // title 字段权重更高
+                    }
+                }
+                .from(from) // 分页起始位置
+                .size(pageSize) // 每页返回条目数
+                .sort { s ->
+                    s.field { f ->
+                        f.field("timeCreated") // 按创建时间排序
+                            .order(SortOrder.Desc) // 降序排列
+                    }
+                }
+                .build()
+
+            // 执行搜索请求
+            val response = elasticsearchClient.search(searchRequest, ArticleSearch::class.java)
+
+            // 获取文档 ID 列表并转换为 Long
+            val articleIds = response.hits().hits().mapNotNull { it.id()?.toLongOrNull() }
+
+            // 根据 ID 从 MySQL 获取文章数据
+            if (articleIds.isNotEmpty()) {
+                val articles = articleRepository.findAllById(articleIds).sortedBy { articleIds.indexOf(it.articleId) }
+
+                if (articles.isNotEmpty()) {
+                    Response.newSuccess(articles)
+                } else {
+                    Response.newFail("未找到包含关键词 '$keyword' 的文章")
+                }
+            } else {
+                Response.newFail("未找到包含关键词 '$keyword' 的文章")
+            }
+        } catch (e: Exception) {
+            Response.newFail("搜索文章失败 - ${e.message}")
+        }
+    }
+
+    // 根据点赞数和收藏数总和降序排列获得最热文章
+    override fun getHotArticle(): Response<List<Article>> {
+        return try {
+            // 获取所有文章的列表
+            val articles = articleRepository.findAll()
+
+            // 使用 sortedWith 进行多条件排序
+            val sortedArticles = articles.sortedWith(
+                compareByDescending<Article> { it.likes + it.saves } // 按点赞数和收藏数总和降序排列
+                    .thenByDescending { it.articleId }  // 如果总和相同，再按文章ID降序排列
+            )
+
+            // 限制返回前10个文章
+            val topArticles = sortedArticles.take(10)
+
+            // 返回排序后的前10篇文章
+            Response.newSuccess(topArticles)
+        } catch (e: Exception) {
+            // 捕获异常并返回失败响应
+            Response.newFail("Failed to fetch or sort articles: ${e.message}")
         }
     }
 
@@ -267,6 +340,7 @@ open class ArticleServiceImpl : ArticleService {
                                 article.likes--
                                 likedArticleRepository.deleteById_UserIdAndId_ArticleId(userId, articleId)
                             }
+
                             else -> return Response.newFail("点赞操作无效: $op")
                         }
                     }
@@ -298,6 +372,7 @@ open class ArticleServiceImpl : ArticleService {
                                 article.saves--
                                 savedArticleRepository.deleteById_UserIdAndId_ArticleId(userId, articleId)
                             }
+
                             else -> return Response.newFail("收藏操作无效: $op")
                         }
                     }
@@ -315,54 +390,6 @@ open class ArticleServiceImpl : ArticleService {
         } catch (e: Exception) {
             // 处理异常，返回失败信息
             Response.newFail("更新ID为 $articleId 的文章状态失败 - ${e.message}")
-        }
-    }
-
-
-    override fun searchArticleByKeyword(keyword: String, page: Int, pageSize: Int): Response<List<Article>> {
-        return try {
-            // 计算分页参数
-            val from = (page - 1) * pageSize
-
-            // 构建 Elasticsearch 查询请求
-            val searchRequest = SearchRequest.Builder()
-                .index("article") // 索引名称
-                .query { q ->
-                    q.multiMatch { mm ->
-                        mm.query(keyword) // 搜索关键词
-                            .fields("title^2", "content") // title 字段权重更高
-                    }
-                }
-                .from(from) // 分页起始位置
-                .size(pageSize) // 每页返回条目数
-                .sort { s ->
-                    s.field { f ->
-                        f.field("timeCreated") // 按创建时间排序
-                            .order(SortOrder.Desc) // 降序排列
-                    }
-                }
-                .build()
-
-            // 执行搜索请求
-            val response = elasticsearchClient.search(searchRequest, ArticleSearch::class.java)
-
-            // 获取文档 ID 列表并转换为 Long
-            val articleIds = response.hits().hits().mapNotNull { it.id()?.toLongOrNull() }
-
-            // 根据 ID 从 MySQL 获取文章数据
-            if (articleIds.isNotEmpty()) {
-                val articles = articleRepository.findAllById(articleIds).sortedBy { articleIds.indexOf(it.articleId) }
-
-                if (articles.isNotEmpty()) {
-                    Response.newSuccess(articles)
-                } else {
-                    Response.newFail("未找到包含关键词 '$keyword' 的文章")
-                }
-            } else {
-                Response.newFail("未找到包含关键词 '$keyword' 的文章")
-            }
-        } catch (e: Exception) {
-            Response.newFail("搜索文章失败 - ${e.message}")
         }
     }
 }
