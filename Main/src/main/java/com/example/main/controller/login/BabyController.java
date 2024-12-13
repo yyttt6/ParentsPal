@@ -23,7 +23,7 @@ public class BabyController {
         return babyService.getAllBabies();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{parentId}")
     public Baby addBaby(@RequestBody Baby baby) {
         return babyService.addBaby(baby);
     }
