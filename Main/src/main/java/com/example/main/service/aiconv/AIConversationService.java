@@ -2,7 +2,10 @@ package com.example.main.service.aiconv;
 
 import com.example.main.converter.aiconv.AIMessageConverter;
 import com.example.main.converter.aiconv.ConversationConverter;
+import com.example.main.converter.conv.MessageConverter;
 import com.example.main.dao.aiconv.*;
+import com.example.main.dao.conv.ConversationRepository;
+import com.example.main.dao.conv.MessageRepository;
 import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.aiconv.AIMessageDTO;
@@ -151,4 +154,10 @@ public class AIConversationService {
                 .collect(Collectors.toList());
         return Response.newSuccess(messageHistory);
     }
+    public void setRestTemplate(RestTemplate restTemplate) {this.restTemplate = restTemplate;}
+    public void setParentRepository(ParentRepository userRepository) {this.userRepository = userRepository;}
+    public void setAIConversationRepository(AIConversationRepository aiConversationRepository) {this.aiConversationRepository = aiConversationRepository;}
+    public void setAIMessageRepository(AIMessageRepository aiMessageRepository) {this.aiMessageRepository = aiMessageRepository;}
+    public void setConversationConverter(ConversationConverter conversationConverter) {this.conversationConverter = conversationConverter;}
+    public void setAIMessageConverter(AIMessageConverter aiMessageConverter) {this.aiMessageConverter = aiMessageConverter;}
 }

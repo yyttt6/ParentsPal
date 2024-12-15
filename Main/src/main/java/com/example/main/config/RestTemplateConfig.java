@@ -1,4 +1,4 @@
-package com.example.main.accessor;
+package com.example.main.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
