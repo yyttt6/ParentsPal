@@ -16,7 +16,7 @@ public class Alarm {
 
     private LocalDateTime alarmTime;
     private Boolean isRecurring;
-    private Integer customIntervalInHours;
+    private Integer frequency;
 
     private Boolean isActive;
 
@@ -61,12 +61,10 @@ public class Alarm {
     }
 
     public Integer getCustomIntervalInHours() {
-        return customIntervalInHours;
+        return frequency;
     }
 
-    public void setCustomIntervalInHours(Integer customIntervalInHours) {
-        this.customIntervalInHours = customIntervalInHours;
-    }
+    public void setCustomIntervalInHours(Integer frequency) { this.frequency = frequency; }
 
     public Boolean getActive() {
         return isActive;

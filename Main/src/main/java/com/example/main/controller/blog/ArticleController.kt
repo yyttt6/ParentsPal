@@ -34,6 +34,11 @@ class ArticleController {
         return articleService.searchArticleByKeyword(queryKeyword, page, pageSize)
     }
 
+    @GetMapping("/api/article/hot")
+    fun getHotArticle(): Response<List<Article>> {
+        return articleService.getHotArticle()
+    }
+
     // 创建一篇新文章
     @PostMapping("/api/article")
     fun createArticle(@RequestBody articleDTO: ArticleDTO): Response<Long?> {
