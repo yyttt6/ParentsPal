@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class ConversationService {
-
     @Autowired
     private ConversationRepository conversationRepository;
     @Autowired
@@ -163,5 +162,21 @@ public class ConversationService {
         } else {
             return Response.newFail("No conversation found between the users.");
         }
+    }
+
+    public void setConversationRepository(ConversationRepository conversationRepository) {
+        this.conversationRepository = conversationRepository;
+    }
+
+    public void setMessageRepository(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
+
+    public void setUserRepository(ParentRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void setMessageConverter(MessageConverter messageConverter) {
+        this.messageConverter = messageConverter;
     }
 }
