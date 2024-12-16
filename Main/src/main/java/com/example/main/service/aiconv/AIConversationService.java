@@ -160,4 +160,5 @@ public class AIConversationService {
     public void setAIMessageRepository(AIMessageRepository aiMessageRepository) {this.aiMessageRepository = aiMessageRepository;}
     public void setConversationConverter(ConversationConverter conversationConverter) {this.conversationConverter = conversationConverter;}
     public void setAIMessageConverter(AIMessageConverter aiMessageConverter) {this.aiMessageConverter = aiMessageConverter;}
+    public void setAPIValue() {this.API_URL = "http://localhost:80/v1/chat-messages"; this.API_KEY = "app-2Z15tg459MeUA12SSjKuoyYt";};
 }
