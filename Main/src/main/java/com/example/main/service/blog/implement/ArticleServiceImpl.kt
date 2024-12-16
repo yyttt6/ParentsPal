@@ -127,6 +127,9 @@ open class ArticleServiceImpl : ArticleService {
 
     // 根据关键词搜索文章
     override fun searchArticleByKeyword(keyword: String, page: Int, pageSize: Int): Response<List<Article>> {
+        // 记录方法开始时间
+        val startTime = System.currentTimeMillis()
+
         return try {
             // 计算分页参数
             val from = (page - 1) * pageSize
@@ -161,6 +164,13 @@ open class ArticleServiceImpl : ArticleService {
                 val articles = articleRepository.findAllById(articleIds).sortedBy { articleIds.indexOf(it.articleId) }
 
                 if (articles.isNotEmpty()) {
+                    // 记录结束时间并计算总耗时
+                    val endTime = System.currentTimeMillis()
+                    val elapsedTime = endTime - startTime
+
+                    // 打印执行时间（你可以根据需要打印或记录到日志中）
+                    println("searchArticleByKeyword took $elapsedTime ms")
+
                     Response.newSuccess(articles)
                 } else {
                     Response.newFail("未找到包含关键词 '$keyword' 的文章")
@@ -169,6 +179,13 @@ open class ArticleServiceImpl : ArticleService {
                 Response.newFail("未找到包含关键词 '$keyword' 的文章")
             }
         } catch (e: Exception) {
+            // 记录结束时间并计算总耗时
+            val endTime = System.currentTimeMillis()
+            val elapsedTime = endTime - startTime
+
+            // 打印执行时间（你可以根据需要打印或记录到日志中）
+            println("searchArticleByKeyword failed after $elapsedTime ms with error: ${e.message}")
+
             Response.newFail("搜索文章失败 - ${e.message}")
         }
     }
