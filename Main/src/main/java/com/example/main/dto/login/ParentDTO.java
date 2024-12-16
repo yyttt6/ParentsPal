@@ -39,4 +39,10 @@ public class ParentDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public ParentDTO(String name, String phoneNumber, String password) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 }
