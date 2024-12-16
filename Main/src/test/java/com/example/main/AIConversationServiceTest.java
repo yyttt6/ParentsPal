@@ -127,6 +127,7 @@ class AIConversationServiceTest {
         savedAIMessage.setConversationId("test");
         AIMessageDTO savedAIMessageDTO = new AIMessageDTO();
         savedAIMessageDTO.setConv_id("test");
+        savedAIMessageDTO.setAnswer("Hello!");
 
         when(aiMessageRepository.save(any(AIMessage.class))).thenReturn(savedAIMessage);
         when(aiMessageConverter.convertAIMessage(savedAIMessage)).thenReturn(savedAIMessageDTO);
@@ -134,6 +135,7 @@ class AIConversationServiceTest {
         Response<AIMessageDTO> response = aiConversationService.getAIMessage(username, query, mode, AIconvID);
         assertTrue(response.isSuccess());
         assertEquals("test", response.getData().getConv_id());
+        //assertEquals("Hello!", response.getData().getAnswer());
     }
 
     @Test
@@ -153,6 +155,7 @@ class AIConversationServiceTest {
         savedAIMessage.setConversationId("test");
         AIMessageDTO savedAIMessageDTO = new AIMessageDTO();
         savedAIMessageDTO.setConv_id("test_conv");
+        savedAIMessageDTO.setAnswer("Hello!");
 
         when(aiMessageRepository.save(any(AIMessage.class))).thenReturn(savedAIMessage);
         when(aiMessageConverter.convertAIMessage(savedAIMessage)).thenReturn(savedAIMessageDTO);
@@ -170,6 +173,7 @@ class AIConversationServiceTest {
         Response<AIMessageDTO> response = aiConversationService.getAIMessage(username, query, mode, AIconvID);
         assertTrue(response.isSuccess());
         assertEquals("test_conv", response.getData().getConv_id());
+        //assertEquals("Hello!", response.getData().getAnswer());
     }
 
     @Test
