@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.BabyRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -130,6 +132,24 @@ public class ParentServiceImpl implements ParentService {
         parent.setPassword(newPassword);
         parentRepository.save(parent);
         return new LoginMessage( "Password changed successfully",true);
+    }
+    @Override
+    public Parent uploadProfilePicture(Long id, MultipartFile file) throws IOException {
+        Optional<Parent> optionalParent = parentRepository.findById(id);
+
+        if (optionalParent.isPresent()) {
+            Parent parent = optionalParent.get();
+            parent.setProfilePicture(file.getBytes());
+            return parentRepository.save(parent);
+        } else {
+            throw new RuntimeException("Parent not found with id: " + id);
+        }
+    }
+    @Override
+    public byte[] getProfilePicture(Long id) {
+        return parentRepository.findById(id)
+                .map(Parent::getProfilePicture)
+                .orElseThrow(() -> new RuntimeException("Profile picture not found for id: " + id));
     }
 
 }

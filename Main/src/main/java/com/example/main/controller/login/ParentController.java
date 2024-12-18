@@ -6,8 +6,10 @@ import com.example.main.dao.login.Baby;
 import com.example.main.response.LoginMessage;
 import com.example.main.service.login.ParentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -65,5 +67,25 @@ public class ParentController {
             return ResponseEntity.ok(responseMessage);
         }
         return ResponseEntity.status(400).body(responseMessage);
+    }
+
+    @PostMapping("/{id}/upload-profile")
+    public ResponseEntity<String> uploadProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            parentService.uploadProfilePicture(id, file);
+            return ResponseEntity.ok("Profile picture uploaded successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to upload: " + e.getMessage());
+        }
+    }
+
+    // Get Profile Picture
+    @GetMapping("/{id}/profile-picture")
+    public ResponseEntity<byte[]> getProfilePicture(@PathVariable Long id) {
+        byte[] profilePicture = parentService.getProfilePicture(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(profilePicture);
     }
 }
