@@ -1,11 +1,13 @@
 package com.example.main.service.login;
 
+
 import com.example.main.dto.login.ParentDTO;
 import com.example.main.dto.login.LoginDTO;
 import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.response.LoginMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.BabyRepository;
@@ -149,6 +151,33 @@ public class ParentServiceImpl implements ParentService {
         return parentRepository.findById(id)
                 .map(Parent::getProfilePicture)
                 .orElseThrow(() -> new RuntimeException("Profile picture was not found for id: " + id));
+    }
+
+    @Override
+    public LoginMessage changeName(Long parentId, String newName) {
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Parent not found"));
+
+        parent.setName(newName);
+        parentRepository.save(parent);
+
+        return new LoginMessage( "Name updated successfully.",true);
+    }
+    
+    @Override
+    public LoginMessage changePhone(Long parentId, String newPhone) {
+        // Check if the phone number is already taken
+        if (parentRepository.existsByPhoneNumber(newPhone)) {
+            return new LoginMessage( "Phone number already in use.",false);
+        }
+
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Parent not found"));
+
+        parent.setPhoneNumber(newPhone);
+        parentRepository.save(parent);
+
+        return new LoginMessage("Phone number updated successfully.",true);
     }
 
 }
