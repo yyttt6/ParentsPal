@@ -87,4 +87,33 @@ public class ParentController {
                 .contentType(MediaType.IMAGE_PNG)
                 .body(profilePicture);
     }
+
+    @PatchMapping("/{parentId}/change-name")
+    public ResponseEntity<?> changeName(
+            @PathVariable Long parentId,
+            @RequestBody Map<String, String> nameData) {
+
+        String newName = nameData.get("newName");
+        LoginMessage responseMessage = parentService.changeName(parentId, newName);
+
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage);
+        }
+        return ResponseEntity.status(400).body(responseMessage);
+    }
+
+
+    @PatchMapping("/{parentId}/change-phone")
+    public ResponseEntity<?> changePhone(
+            @PathVariable Long parentId,
+            @RequestBody Map<String, String> phoneData) {
+
+        String newPhone = phoneData.get("newPhone");
+        LoginMessage responseMessage = parentService.changePhone(parentId, newPhone);
+
+        if (responseMessage.getStatus()) {
+            return ResponseEntity.ok(responseMessage);
+        }
+        return ResponseEntity.status(400).body(responseMessage);
+    }
 }
