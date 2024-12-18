@@ -80,7 +80,6 @@ public class Parent {
     public byte[] getProfilePicture() {
         return profilePicture;
     }
-
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }

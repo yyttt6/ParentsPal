@@ -29,7 +29,6 @@ public interface ParentService {
     LoginMessage changePassword(Long parentId, String oldPassword, String newPassword);
 
     Parent uploadProfilePicture(Long id, MultipartFile file) throws IOException;
-
     byte[] getProfilePicture(Long id);
 
 }

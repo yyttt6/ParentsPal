@@ -136,7 +136,6 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public Parent uploadProfilePicture(Long id, MultipartFile file) throws IOException {
         Optional<Parent> optionalParent = parentRepository.findById(id);
-
         if (optionalParent.isPresent()) {
             Parent parent = optionalParent.get();
             parent.setProfilePicture(file.getBytes());
@@ -149,7 +148,7 @@ public class ParentServiceImpl implements ParentService {
     public byte[] getProfilePicture(Long id) {
         return parentRepository.findById(id)
                 .map(Parent::getProfilePicture)
-                .orElseThrow(() -> new RuntimeException("Profile picture not found for id: " + id));
+                .orElseThrow(() -> new RuntimeException("Profile picture was not found for id: " + id));
     }
 
 }

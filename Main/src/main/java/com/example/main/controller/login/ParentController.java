@@ -79,7 +79,6 @@ public class ParentController {
         }
     }
 
-    // Get Profile Picture
     @GetMapping("/{id}/profile-picture")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable Long id) {
         byte[] profilePicture = parentService.getProfilePicture(id);
