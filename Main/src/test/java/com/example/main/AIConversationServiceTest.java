@@ -14,6 +14,8 @@ import com.example.main.service.aiconv.AIConversationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.jasypt.encryption.StringEncryptor;
+import com.example.main.service.encry.EncryptionService;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +41,15 @@ class AIConversationServiceTest {
     private ConversationConverter conversationConverter;
     @Mock
     private AIMessageConverter aiMessageConverter;
+    @Mock
+    private StringEncryptor stringEncryptor;
 
     private AIConversationService aiConversationService;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        aiConversationService = new AIConversationService();
+        EncryptionService encryptionService = new EncryptionService(stringEncryptor);
+        aiConversationService = new AIConversationService(encryptionService);
         aiConversationService.setRestTemplate(restTemplate);
         aiConversationService.setParentRepository(userRepository);
         aiConversationService.setAIConversationRepository(aiConversationRepository);

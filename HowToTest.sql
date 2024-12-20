@@ -180,12 +180,6 @@ CREATE TABLE message (
     FOREIGN KEY (receiver_id) REFERENCES Parent(user_id)  
 );  
   
-CREATE TABLE fcmtoken (
-    user_id INT NOT NULL,
-    token VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES Parent(user_id),
-    UNIQUE INDEX idx_user_id (user_id)
-);
 
 CREATE TABLE aiconversation (
     conversation_id VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,

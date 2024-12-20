@@ -1,5 +1,5 @@
 package com.example.main.service.login;
-
+import com.example.main.service.encry.EncryptionService;
 
 import com.example.main.dto.login.ParentDTO;
 import com.example.main.dto.login.LoginDTO;
@@ -25,6 +25,13 @@ public class ParentServiceImpl implements ParentService {
     @Autowired
     private BabyRepository babyRepository;
 
+    @Autowired
+    private final EncryptionService encryptionService;
+
+    public ParentServiceImpl(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
+
     @Override
     public LoginMessage addNewAppUser (ParentDTO parentDTO) {
 
@@ -38,7 +45,7 @@ public class ParentServiceImpl implements ParentService {
                 parentDTO.getId(),
                 parentDTO.getName(),
                 parentDTO.getPhoneNumber(),
-                parentDTO.getPassword()
+                encryptionService.encrypt(parentDTO.getPassword())
         );
         Parent savedParent = parentRepository.save(parent);
 
@@ -53,7 +60,7 @@ public class ParentServiceImpl implements ParentService {
         Parent parent1 = parentRepository.findByPhoneNumber(loginDTO.getPhoneNumber());
         if (parent1 != null) {
             String password = loginDTO.getPassword();
-            String storedPassword = parent1.getPassword();
+            String storedPassword = encryptionService.decrypt(parent1.getPassword());
             Boolean isPwdRight = password.equals(storedPassword);
             if (isPwdRight) {
                 Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), storedPassword);
@@ -119,7 +126,7 @@ public class ParentServiceImpl implements ParentService {
         Parent parent = parentRepository.findById(parentId)
                 .orElseThrow(() -> new IllegalArgumentException("Parent not found"));
     
-        if (!parent.getPassword().equals(oldPassword)) {
+        if (!encryptionService.decrypt(parent.getPassword()).equals(oldPassword)) {
             return new LoginMessage( "The original password is wrong.",false);
         }
     
@@ -131,7 +138,7 @@ public class ParentServiceImpl implements ParentService {
             return new LoginMessage( "New password cannot be empty",false);
         }
     
-        parent.setPassword(newPassword);
+        parent.setPassword(encryptionService.encrypt(newPassword));
         parentRepository.save(parent);
         return new LoginMessage( "Password changed successfully",true);
     }
@@ -180,4 +187,11 @@ public class ParentServiceImpl implements ParentService {
         return new LoginMessage("Phone number updated successfully.",true);
     }
 
+    public void setParentRepository(ParentRepository parentRepository) {
+        this.parentRepository = parentRepository;
+    }
+
+    public void setBabyRepository(BabyRepository babyRepository) {
+        this.babyRepository = babyRepository;
+    }
 }
