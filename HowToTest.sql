@@ -30,7 +30,8 @@ CREATE TABLE `parent` (
     UNIQUE KEY `user_id_unique` (`user_id`),
     UNIQUE KEY `username_unique` (`username`),
     UNIQUE KEY `phone_number_unique` (`phone_number`),
-    KEY `idx_userid_username` (`user_id`, `username`)
+    KEY `idx_userid_username` (`user_id`, `username`),
+    profile_picture LONGBLOB
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO parent (username, password, phone_number)
