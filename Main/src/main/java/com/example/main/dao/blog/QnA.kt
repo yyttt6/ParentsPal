@@ -29,12 +29,9 @@ class QnA (
     @Column(name = "saves")
     var saves: Int = 0,
 
-    @Column(name = "comments")
-    var comments: Int = 0,
-
-    @Column(name = "time", nullable = false)
+    @Column(name = "time_created", nullable = false)
     var time: LocalDateTime = LocalDateTime.now(),
 ) {
     // JPA 要求的无参构造函数
-    constructor() : this(null, 0, "", "", "", 0, 0, 0, LocalDateTime.now())
+    constructor() : this(null, 0, "", "", "", 0, 0, LocalDateTime.now())
 }
