@@ -5,11 +5,11 @@ import com.example.main.dao.blog.QnAComment
 import com.example.main.dto.blog.QnACommentDTO
 
 interface QnACommentService {
-    fun getQnACommentById(commentId: Long): Response<QnAComment>
-    fun getQnACommentsByCategoryAndId(category: String, articleId: Long, userId: Long): Response<List<QnAComment>>
-    fun createQnAComment(commentDTO: QnACommentDTO): Response<Long?>
-    fun deleteQnACommentById(commentId: Long): Response<Void>
-    fun updateQnACommentById(commentId: Long, commentDTO: QnACommentDTO): Response<QnAComment>
-    fun updateQnACommentStatusById(userId: Long, commentId: Long, aspect: String, op: String): Response<QnAComment>
+    fun getQnACommentById(qnaCommentId: Long): Response<QnAComment>
+    fun getQnACommentsByCategoryAndId(category: String, qnaId: Long, userId: Long): Response<List<QnAComment>>
+    fun createQnAComment(qnaCommentDTO: QnACommentDTO): Response<Long?>
+    fun deleteQnACommentById(qnaCommentId: Long): Response<Void>
+    fun updateQnACommentById(qnaCommentId: Long, qnaCommentDTO: QnACommentDTO): Response<QnAComment>
+    fun updateQnACommentStatusById(userId: Long, qnaCommentId: Long, aspect: String, op: String): Response<QnAComment>
 
 }
