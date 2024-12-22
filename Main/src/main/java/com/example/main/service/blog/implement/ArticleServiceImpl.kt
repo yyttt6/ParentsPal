@@ -214,7 +214,6 @@ open class ArticleServiceImpl : ArticleService {
     }
 
     // 创建文章，同时将文章数据存入ES
-    @Transactional
     override fun createArticle(articleDTO: ArticleDTO): Response<Long?> {
         val article: Article = ArticleConverter.convertArticle(articleDTO)
         return try {
