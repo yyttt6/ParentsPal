@@ -159,6 +159,59 @@ CREATE TABLE liked_comment(
     FOREIGN KEY (comment_id ) REFERENCES comment(comment_id ) ON DELETE CASCADE
 );
 
+CREATE TABLE `qna` (
+   `qna_id` INT NOT NULL auto_increment,
+   `user_id` INT NOT NULL,
+   `username` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `title` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `content` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `likes` INT UNSIGNED DEFAULT '0',
+   `saves` INT UNSIGNED DEFAULT '0',
+   `time_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (`qna_id`),
+   KEY `idx_userid_username` (`user_id`,`username`),
+   CONSTRAINT `fk_user_qna` FOREIGN KEY (`user_id`, `username`) REFERENCES `parent` (`user_id`, `username`) ON DELETE CASCADE ON UPDATE CASCADE
+ ) engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_general_ci;
+ 
+ CREATE TABLE liked_qna(
+user_id INT NOT NULL,
+qna_id INT NOT NULL,
+PRIMARY KEY (user_id, qna_id ),
+FOREIGN KEY (user_id) REFERENCES parent(user_id) ON DELETE CASCADE,
+FOREIGN KEY (qna_id ) REFERENCES qna(qna_id ) ON DELETE CASCADE
+);
+
+CREATE TABLE saved_qna(
+user_id INT NOT NULL,
+qna_id INT NOT NULL,
+PRIMARY KEY (user_id, qna_id ),
+FOREIGN KEY (user_id) REFERENCES parent(user_id) ON DELETE CASCADE,
+FOREIGN KEY (qna_id ) REFERENCES qna(qna_id ) ON DELETE CASCADE
+);
+
+ CREATE TABLE `qna_comment` (
+   `qna_comment_id` INT NOT NULL auto_increment,
+   `qna_id` INT NOT NULL,
+   `user_id` INT NOT NULL,
+   `username` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `content` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+   `likes` INT UNSIGNED DEFAULT '0',
+   `time_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (`qna_comment_id`),
+   KEY `idx_qna_id` (`qna_id`),
+   KEY `idx_userid_username` (`user_id`,`username`),
+   CONSTRAINT `fk_qnaid` FOREIGN KEY (`qna_id`) REFERENCES `qna` (`qna_id`) ON DELETE cascade on UPDATE CASCADE,
+   CONSTRAINT `fk_user_qna_comment` FOREIGN KEY (`user_id`, `username`) REFERENCES `parent` (`user_id`, `username`) ON DELETE CASCADE ON UPDATE CASCADE
+ ) engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_general_ci;
+ 
+ CREATE TABLE liked_qna_comment(
+user_id INT NOT NULL,
+qna_comment_id INT NOT NULL,
+PRIMARY KEY (user_id, qna_comment_id ),
+FOREIGN KEY (user_id) REFERENCES parent(user_id) ON DELETE CASCADE,
+FOREIGN KEY (qna_comment_id ) REFERENCES qna_comment(qna_comment_id ) ON DELETE CASCADE
+);
+
 CREATE TABLE conversation (  
     conversation_id INT AUTO_INCREMENT PRIMARY KEY,  
     user1_id INT NOT NULL,  
