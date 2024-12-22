@@ -26,7 +26,6 @@ public class ConversationController {
 
     @PostMapping("/message")
     public Response<Message> saveMessage(@RequestBody SaveMessageDTO dto) {
-//        conversationService.sendLastMessage(content, senderUsername, receiverUsername);
         return conversationService.saveMessage(dto.getSenderUsername(), dto.getReceiverUsername(), dto.getContent());
     }
 

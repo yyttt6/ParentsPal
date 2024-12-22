@@ -3,14 +3,13 @@ import com.example.main.dao.conv.ConversationRepository;
 import com.example.main.dao.conv.MessageRepository;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.conv.MessageDTO;
-import com.example.main.firebase.FCMService;
 import com.example.main.service.encry.EncryptionService;
-import com.example.main.service.fcm.FCMTokenService;
 import com.example.main.converter.conv.MessageConverter;
 import com.example.main.dao.conv.Message;
 import com.example.main.dao.conv.Conversation;
 import com.example.main.dao.login.Parent;
 import com.example.main.service.conv.ConversationService;
+import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -32,16 +31,12 @@ class ConversationServiceTest {
     @Mock
     private EncryptionService encryptionService;
     @Mock
-    private FCMTokenService fcmTokenService;
-    @Mock
-    private FCMService fcmNotificationService;
-    @Mock
     private MessageConverter messageConverter;
     private ConversationService conversationService;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        conversationService = new ConversationService(encryptionService, fcmNotificationService, fcmTokenService);
+        conversationService = new ConversationService(encryptionService);
         conversationService.setUserRepository(userRepository);
         conversationService.setConversationRepository(conversationRepository);
         conversationService.setMessageRepository(messageRepository);
@@ -128,7 +123,6 @@ class ConversationServiceTest {
         savedMessage.setMessageId(1);
         savedMessage.setContent(content);
         when(messageRepository.save(any(Message.class))).thenReturn(savedMessage);
-        doNothing().when(fcmNotificationService).sendMessageToDevice(anyString(), anyString(), anyString());
         Response<Message> response = conversationService.saveMessage(username1, username2, content);
         assertTrue(response.isSuccess());
         assertEquals("Hello, World!", response.getData().getContent());

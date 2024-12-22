@@ -30,7 +30,8 @@ CREATE TABLE `parent` (
     UNIQUE KEY `user_id_unique` (`user_id`),
     UNIQUE KEY `username_unique` (`username`),
     UNIQUE KEY `phone_number_unique` (`phone_number`),
-    KEY `idx_userid_username` (`user_id`, `username`)
+    KEY `idx_userid_username` (`user_id`, `username`),
+    profile_picture LONGBLOB
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO parent (username, password, phone_number)
@@ -180,12 +181,6 @@ CREATE TABLE message (
     FOREIGN KEY (receiver_id) REFERENCES Parent(user_id)  
 );  
   
-CREATE TABLE fcmtoken (
-    user_id INT NOT NULL,
-    token VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES Parent(user_id),
-    UNIQUE INDEX idx_user_id (user_id)
-);
 
 CREATE TABLE aiconversation (
     conversation_id VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,

@@ -1,4 +1,5 @@
 package com.example.main.service.login;
+import com.example.main.service.encry.EncryptionService;
 
 import com.example.main.dto.login.ParentDTO;
 import com.example.main.dto.login.LoginDTO;
@@ -6,10 +7,13 @@ import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.response.LoginMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.main.dao.login.Baby;
 import com.example.main.dao.login.BabyRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,13 @@ public class ParentServiceImpl implements ParentService {
 
     @Autowired
     private BabyRepository babyRepository;
+
+    @Autowired
+    private final EncryptionService encryptionService;
+
+    public ParentServiceImpl(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     @Override
     public LoginMessage addNewAppUser (ParentDTO parentDTO) {
@@ -34,7 +45,7 @@ public class ParentServiceImpl implements ParentService {
                 parentDTO.getId(),
                 parentDTO.getName(),
                 parentDTO.getPhoneNumber(),
-                parentDTO.getPassword()
+                encryptionService.encrypt(parentDTO.getPassword())
         );
         Parent savedParent = parentRepository.save(parent);
 
@@ -49,7 +60,7 @@ public class ParentServiceImpl implements ParentService {
         Parent parent1 = parentRepository.findByPhoneNumber(loginDTO.getPhoneNumber());
         if (parent1 != null) {
             String password = loginDTO.getPassword();
-            String storedPassword = parent1.getPassword();
+            String storedPassword = encryptionService.decrypt(parent1.getPassword());
             Boolean isPwdRight = password.equals(storedPassword);
             if (isPwdRight) {
                 Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), storedPassword);
@@ -115,7 +126,7 @@ public class ParentServiceImpl implements ParentService {
         Parent parent = parentRepository.findById(parentId)
                 .orElseThrow(() -> new IllegalArgumentException("Parent not found"));
     
-        if (!parent.getPassword().equals(oldPassword)) {
+        if (!encryptionService.decrypt(parent.getPassword()).equals(oldPassword)) {
             return new LoginMessage( "The original password is wrong.",false);
         }
     
@@ -127,9 +138,60 @@ public class ParentServiceImpl implements ParentService {
             return new LoginMessage( "New password cannot be empty",false);
         }
     
-        parent.setPassword(newPassword);
+        parent.setPassword(encryptionService.encrypt(newPassword));
         parentRepository.save(parent);
         return new LoginMessage( "Password changed successfully",true);
     }
+    @Override
+    public Parent uploadProfilePicture(Long id, MultipartFile file) throws IOException {
+        Optional<Parent> optionalParent = parentRepository.findById(id);
+        if (optionalParent.isPresent()) {
+            Parent parent = optionalParent.get();
+            parent.setProfilePicture(file.getBytes());
+            return parentRepository.save(parent);
+        } else {
+            throw new RuntimeException("Parent not found with id: " + id);
+        }
+    }
+    @Override
+    public byte[] getProfilePicture(Long id) {
+        return parentRepository.findById(id)
+                .map(Parent::getProfilePicture)
+                .orElseThrow(() -> new RuntimeException("Profile picture was not found for id: " + id));
+    }
 
+    @Override
+    public LoginMessage changeName(Long parentId, String newName) {
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Parent not found"));
+
+        parent.setName(newName);
+        parentRepository.save(parent);
+
+        return new LoginMessage( "Name updated successfully.",true);
+    }
+    
+    @Override
+    public LoginMessage changePhone(Long parentId, String newPhone) {
+        // Check if the phone number is already taken
+        if (parentRepository.existsByPhoneNumber(newPhone)) {
+            return new LoginMessage( "Phone number already in use.",false);
+        }
+
+        Parent parent = parentRepository.findById(parentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Parent not found"));
+
+        parent.setPhoneNumber(newPhone);
+        parentRepository.save(parent);
+
+        return new LoginMessage("Phone number updated successfully.",true);
+    }
+
+    public void setParentRepository(ParentRepository parentRepository) {
+        this.parentRepository = parentRepository;
+    }
+
+    public void setBabyRepository(BabyRepository babyRepository) {
+        this.babyRepository = babyRepository;
+    }
 }

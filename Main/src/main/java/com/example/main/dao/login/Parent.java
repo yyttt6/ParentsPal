@@ -20,6 +20,10 @@ public class Parent {
     @Column(name = "password")
     private String password;
 
+    @Lob
+    @Column(name = "profile_picture")
+    private byte[] profilePicture;
+
     @OneToMany(mappedBy = "parent")
     @JsonManagedReference
     private List<Baby> babies;
@@ -72,5 +76,14 @@ public class Parent {
     public void setBabies(List<Baby> babies) {
         this.babies = babies;
     }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+
 }
 

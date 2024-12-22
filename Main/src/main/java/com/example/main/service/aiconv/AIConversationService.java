@@ -6,6 +6,7 @@ import com.example.main.converter.conv.MessageConverter;
 import com.example.main.dao.aiconv.*;
 import com.example.main.dao.conv.ConversationRepository;
 import com.example.main.dao.conv.MessageRepository;
+import com.example.main.service.encry.EncryptionService;
 import com.example.main.dao.login.Parent;
 import com.example.main.dao.login.ParentRepository;
 import com.example.main.dto.aiconv.AIMessageDTO;
@@ -46,6 +47,9 @@ public class AIConversationService {
     private ConversationConverter conversationConverter;
     @Autowired
     private AIMessageConverter aiMessageConverter;
+    @Autowired
+    private final EncryptionService encryptionService;
+    public AIConversationService(EncryptionService encryptionService) {this.encryptionService = encryptionService;}
 
     @Value("${ai.api.key}")
     private String API_KEY;
@@ -72,7 +76,7 @@ public class AIConversationService {
         AIConversation AIconv = new AIConversation();
         AIconv.setUserId(user_id);
         AIconv.setConversationId(AIconvID);
-        AIconv.setConversationName(convname);
+        AIconv.setConversationName(encryptionService.encrypt(convname));
         AIconv.setCreatedAt(LocalDateTime.now());
 
         AIConversation savedAIConversation = aiConversationRepository.save(AIconv);
@@ -83,8 +87,8 @@ public class AIConversationService {
 
         AIMessage AImess = new AIMessage();
         AImess.setConversationId(AIconvID);
-        AImess.setQuery(query);
-        AImess.setAnswer(answer);
+        AImess.setQuery(encryptionService.encrypt(query));
+        AImess.setAnswer(encryptionService.encrypt(answer));
         AImess.setCreatedAt(LocalDateTime.now());
 
         AIMessage savedAIMessage = aiMessageRepository.save(AImess);
