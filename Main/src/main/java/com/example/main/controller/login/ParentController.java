@@ -139,6 +139,16 @@ public class ParentController {
         }
     }
 
+    @GetMapping("/{id}/expert-status")
+    public ResponseEntity<Boolean> getExpertStatus(@PathVariable Long id) {
+        try {
+            boolean isExpert = parentService.getExpertStatus(id);
+            return ResponseEntity.ok(isExpert);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+    
     @PatchMapping("/{id}/toggle-expert-status")
     public ResponseEntity<String> toggleExpertStatus(@PathVariable Long id, @RequestBody Map<String, Boolean> expertStatus) {
         try {

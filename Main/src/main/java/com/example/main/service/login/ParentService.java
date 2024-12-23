@@ -42,4 +42,6 @@ public interface ParentService {
 
     void setExpertStatus(Long id, boolean isExpert);
 
+    boolean getExpertStatus(Long id);
+
 }

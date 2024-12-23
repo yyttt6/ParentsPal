@@ -229,4 +229,10 @@ public class ParentServiceImpl implements ParentService {
         parent.setExpert(isExpert);
         parentRepository.save(parent);
     }
+    @Override
+    public boolean getExpertStatus(Long id) {
+        Parent parent = parentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Parent not found with id: " + id));
+        return parent.isExpert();
+    }
 }
