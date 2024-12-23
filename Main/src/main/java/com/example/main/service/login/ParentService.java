@@ -36,4 +36,10 @@ public interface ParentService {
     
     LoginMessage changeName(Long parentId, String newName);
 
+    void uploadExpertPicture(Long id, MultipartFile file) throws IOException;
+
+    byte[] getExpertPicture(Long id);
+
+    void setExpertStatus(Long id, boolean isExpert);
+
 }

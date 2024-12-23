@@ -116,4 +116,37 @@ public class ParentController {
         }
         return ResponseEntity.status(400).body(responseMessage);
     }
+
+    @PostMapping("/{id}/upload-expert-picture")
+    public ResponseEntity<String> uploadExpertPicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            parentService.uploadExpertPicture(id, file);
+            return ResponseEntity.ok("Expert picture uploaded successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to upload: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/expert-picture")
+    public ResponseEntity<byte[]> getExpertPicture(@PathVariable Long id) {
+        try {
+            byte[] expertPicture = parentService.getExpertPicture(id);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(expertPicture);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    @PatchMapping("/{id}/toggle-expert-status")
+    public ResponseEntity<String> toggleExpertStatus(@PathVariable Long id, @RequestBody Map<String, Boolean> expertStatus) {
+        try {
+            boolean isExpert = expertStatus.getOrDefault("isExpert", false);
+            parentService.setExpertStatus(id, isExpert);
+            return ResponseEntity.ok("Expert status updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to update expert status: " + e.getMessage());
+        }
+    }
 }

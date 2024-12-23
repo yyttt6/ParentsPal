@@ -24,6 +24,13 @@ public class Parent {
     @Column(name = "profile_picture")
     private byte[] profilePicture;
 
+    @Lob
+    @Column(name = "expert_picture")
+    private byte[] expertPicture;
+
+    @Column(name = "is_expert", nullable = false)
+    private boolean isExpert = false;
+
     @OneToMany(mappedBy = "parent")
     @JsonManagedReference
     private List<Baby> babies;
@@ -84,6 +91,20 @@ public class Parent {
         this.profilePicture = profilePicture;
     }
 
+    public byte[] getExpertPicture() {
+        return expertPicture;
+    }
 
+    public void setExpertPicture(byte[] expertPicture) {
+        this.expertPicture = expertPicture;
+    }
+
+    public boolean isExpert() {
+        return isExpert;
+    }
+
+    public void setExpert(boolean expert) {
+        isExpert = expert;
+    }
 }
 

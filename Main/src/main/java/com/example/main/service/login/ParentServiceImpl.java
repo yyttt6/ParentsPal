@@ -194,4 +194,39 @@ public class ParentServiceImpl implements ParentService {
     public void setBabyRepository(BabyRepository babyRepository) {
         this.babyRepository = babyRepository;
     }
+    @Override
+    public void uploadExpertPicture(Long id, MultipartFile file) throws IOException {
+        Optional<Parent> parentOptional = parentRepository.findById(id);
+
+        if (parentOptional.isEmpty()) {
+            throw new IllegalArgumentException("Parent not found.");
+        }
+
+        Parent parent = parentOptional.get();
+        parent.setExpertPicture(file.getBytes());
+        parent.setExpert(true);
+        parentRepository.save(parent);
+    }
+    @Override
+    public byte[] getExpertPicture(Long id) {
+        Optional<Parent> parentOptional = parentRepository.findById(id);
+
+        if (parentOptional.isEmpty() || parentOptional.get().getExpertPicture() == null) {
+            throw new IllegalArgumentException("Expert picture not found.");
+        }
+
+        return parentOptional.get().getExpertPicture();
+    }
+    @Override
+    public void setExpertStatus(Long id, boolean isExpert) {
+        Optional<Parent> parentOptional = parentRepository.findById(id);
+
+        if (parentOptional.isEmpty()) {
+            throw new IllegalArgumentException("Parent not found.");
+        }
+
+        Parent parent = parentOptional.get();
+        parent.setExpert(isExpert);
+        parentRepository.save(parent);
+    }
 }
