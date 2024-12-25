@@ -63,7 +63,7 @@ public class ParentServiceImpl implements ParentService {
             String storedPassword = encryptionService.decrypt(parent1.getPassword());
             Boolean isPwdRight = password.equals(storedPassword);
             if (isPwdRight) {
-                Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), storedPassword);
+                Optional<Parent> employee = parentRepository.findOneByPhoneNumberAndPassword(loginDTO.getPhoneNumber(), parent1.getPassword());
 
                 if (employee.isPresent()) {
                     Parent loggedInParent = employee.get();
