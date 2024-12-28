@@ -37,6 +37,7 @@ CREATE TABLE `parent` (
 
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--- 可供测试使用
 INSERT INTO parent (username, password, phone_number)
 VALUES
     ('Alice', '123456789', '1111'),
@@ -97,6 +98,7 @@ CREATE TABLE `article` (
     CONSTRAINT `fk_user_article` FOREIGN KEY (`user_id`, `username`) REFERENCES `parent` (`user_id`, `username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--- 可供测试使用
 INSERT INTO article (user_id, username, title, content, likes, saves, time_created)
 VALUES
     (1, 'Alice', '宝宝的成长记录', '宝宝今天学会了走路', 3, 8, '2024-10-28 19:34:03'),
